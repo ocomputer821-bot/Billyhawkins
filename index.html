@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>God is Able Foods</title>
+
+<style>
+:root {
+    --primary: #e63946;
+    --accent: #ffcc00;
+    --dark: #1a1a1a;
+    --light: #ffffff;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: var(--light);
+    color: var(--dark);
+    transition: 0.3s;
+}
+
+.dark {
+    background: #121212;
+    color: white;
+}
+
+/* NAVIGATION */
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 5%;
+    background: white;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.dark nav {
+    background: #1e1e1e;
+}
+
+nav a {
+    margin-left: 20px;
+    text-decoration: none;
+    color: inherit;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+nav a:hover {
+    color: var(--accent);
+}
+
+/* HERO */
+.hero {
+    height: 90vh;
+    background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
+                url('https://images.unsplash.com/photo-1555939594-58d7cb561ad1') center/cover;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    text-align: center;
+    padding: 0 20px;
+}
+
+.hero h1 {
+    font-size: 3rem;
+    margin-bottom: 10px;
+}
+
+.hero p {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+}
+
+/* BUTTON */
+.btn {
+    background: var(--accent);
+    padding: 12px 25px;
+    border-radius: 30px;
+    text-decoration: none;
+    color: black;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.3s;
+}
+.btn:hover {
+    transform: translateY(-3px);
+}
+
+/* HIGHLIGHTS */
+.highlights {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.highlight {
+    flex: 1 1 250px;
+    background: var(--primary);
+    color: white;
+    padding: 20px;
+    border-radius: 12px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.1rem;
+    transition: transform 0.3s;
+}
+
+.highlight:hover {
+    transform: translateY(-5px);
+}
+
+/* GRID / CARD */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(250px,1fr));
+    gap: 20px;
+}
+
+.card {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: 0.3s;
+    position: relative;
+}
+
+.dark .card {
+    background: #1e1e1e;
+}
+
+.card:hover {
+    transform: translateY(-8px);
+}
+
+.card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    transition: 0.4s;
+}
+
+.card:hover img {
+    transform: scale(1.1);
+}
+
+.card-content {
+    padding: 15px;
+}
+
+.badge {
+    position: absolute;
+    background: var(--primary);
+    color: white;
+    padding: 5px 10px;
+    font-size: 0.8rem;
+    border-radius: 5px;
+    top: 10px;
+    left: 10px;
+}
+
+.rating {
+    color: gold;
+    margin: 5px 0;
+}
+
+/* CART */
+#cart {
+    position: fixed;
+    right: 10px;
+    top: 80px;
+    background: white;
+    padding: 15px;
+    width: 250px;
+    border-radius: 10px;
+    z-index: 500;
+}
+
+.dark #cart {
+    background: #1e1e1e;
+}
+
+/* GALLERY */
+.slider {
+    overflow: hidden;
+    margin-top: 20px;
+}
+
+.slide-track {
+    display: flex;
+    animation: scroll 20s linear infinite;
+}
+
+.slide-track img {
+    width: 300px;
+    height: 200px;
+    margin-right: 15px;
+    border-radius: 10px;
+    object-fit: cover;
+}
+
+@keyframes scroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
+/* TESTIMONIALS */
+.testimonial-slider {
+    overflow: hidden;
+    background: #f8f8f8;
+    border-radius: 10px;
+    padding: 20px 0;
+    margin-top: 40px;
+}
+
+.testimonial-track {
+    display: flex;
+    animation: testimonialScroll 25s linear infinite;
+    transition: transform 0.5s;
+}
+
+.testimonial-slider:hover .testimonial-track {
+    animation-play-state: paused;
+}
+
+.testimonial {
+    flex: 0 0 300px;
+    margin-right: 20px;
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+.testimonial img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+}
+
+@keyframes testimonialScroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
+/* ABOUT US */
+.about {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px;
+    align-items: center;
+    justify-content: center;
+}
+
+.about img {
+    width: 400px;
+    max-width: 100%;
+    border-radius: 15px;
+}
+
+.about-text {
+    max-width: 500px;
+}
+
+/* FOOTER */
+footer {
+    background: #111;
+    color: white;
+    text-align: center;
+    padding: 30px;
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+<div><b>GOD IS ABLE</b></div>
+<div>
+<a href="#menu">Menu</a>
+<a href="#gallery">Gallery</a>
+<a href="#testimonials">Testimonials</a>
+<a href="#about">About Us</a>
+<a href="#contact">Contact</a>
+<button onclick="toggleDark()">🌙</button>
+</div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+<h1>Taste the Best in Kampala</h1>
+<p>Experience freshly prepared local dishes cooked with love. Fast, tasty, and unforgettable!</p>
+<a href="#menu" class="btn">Order Now</a>
+</section>
+
+<!-- HIGHLIGHTS -->
+<section class="highlights">
+<div class="highlight">🔥 Freshly Prepared Every Day</div>
+<div class="highlight">🍽️ Authentic Local Recipes</div>
+<div class="highlight">🚀 Fast Delivery & Service</div>
+</section>
+
+<!-- MENU -->
+<section id="menu">
+<h2>Menu</h2>
+<div class="grid">
+<div class="card">
+<div class="badge">🔥 Popular</div>
+<img src="https://images.unsplash.com/photo-1567333528663-d086e8410c18">
+<div class="card-content">
+<h3>Beef Pilau</h3>
+<div class="rating">★★★★★</div>
+<p>Deliciously spiced beef pilau cooked with fragrant rice for a perfect meal.</p>
+<p>UGX 10,000</p>
+<button onclick="addToCart('Beef Pilau',10000)">Add</button>
+</div>
+</div>
+<div class="card">
+<div class="badge">🔥 Popular</div>
+<img src="https://images.unsplash.com/photo-1513104890138-7c749659a591">
+<div class="card-content">
+<h3>Rolex Special</h3>
+<div class="rating">★★★★★</div>
+<p>Rolled chapati with eggs, fresh vegetables, and your choice of meat. Kampala favorite!</p>
+<p>UGX 5,000</p>
+<button onclick="addToCart('Rolex Special',5000)">Add</button>
+</div>
+</div>
+<div class="card">
+<img src="https://images.unsplash.com/photo-1604908176997-125f25cc6f3d">
+<div class="card-content">
+<h3>Chicken & Chips</h3>
+<div class="rating">★★★★☆</div>
+<p>Crispy fried chicken with golden fries. Perfect comfort food.</p>
+<p>UGX 12,000</p>
+<button onclick="addToCart('Chicken & Chips',12000)">Add</button>
+</div>
+</div>
+</div>
+</section>
+
+<!-- CART -->
+<div id="cart">
+<h3>🛒 Cart</h3>
+<ul id="cart-items"></ul>
+<p>Total: UGX <span id="total">0</span></p>
+<a id="whatsappBtn" class="btn" target="_blank">Order via WhatsApp</a>
+</div>
+
+<!-- GALLERY -->
+<section id="gallery">
+<h2>Food Gallery</h2>
+<div class="slider">
+<div class="slide-track">
+<img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836">
+<img src="https://images.unsplash.com/photo-1499028344343-cd173ffc68a9">
+<img src="https://images.unsplash.com/photo-1551218808-94e220e084d2">
+<img src="https://images.unsplash.com/photo-1606787366850-de6330128bfc">
+</div>
+</div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials">
+<h2>What Our Customers Say</h2>
+<div class="testimonial-slider">
+<div class="testimonial-track">
+<div class="testimonial">
+<img src="https://randomuser.me/api/portraits/men/32.jpg" alt="User">
+<p>“Absolutely love the Beef Pilau! Best in Kampala.”</p>
+<strong>- John K.</strong>
+</div>
+<div class="testimonial">
+<img src="https://randomuser.me/api/portraits/women/44.jpg" alt="User">
+<p>“Rolex Special is my favorite. Always fresh and tasty!”</p>
+<strong>- Sarah L.</strong>
+</div>
+</div>
+</div>
+</section>
+
+<!-- ABOUT US -->
+<section id="about">
+<h2>About Us</h2>
+<div class="about">
+<img src="https://images.unsplash.com/photo-1600891964092-4316c288032e" alt="Our kitchen">
+<div class="about-text">
+<p>God is Able Fast Foods has been serving Kampala with passion and dedication. We specialize in local and continental dishes, prepared fresh daily by our skilled chefs.</p>
+<p>Our mission is to bring authentic flavors, fast service, and an unforgettable dining experience for everyone.</p>
+</div>
+</div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+<h2>Find Us</h2>
+<iframe src="https://maps.google.com/maps?q=mbuya kampala&output=embed" width="100%" height="300"></iframe>
+<p>📞 +256 703 082 106</p>
+<p>📍 Mbuya Road, Kampala</p>
+</section>
+
+<!-- FOOTER -->
+<footer>
+<p>© 2026 God is Able Fast Foods</p>
+</footer>
+
+<script>
+let cart = [];
+let total = 0;
+
+function addToCart(name, price){
+    cart.push(name);
+    total += price;
+    document.getElementById('total').innerText = total;
+    let li = document.createElement('li');
+    li.innerText = name;
+    document.getElementById('cart-items').appendChild(li);
+    updateWhatsApp();
+}
+
+function updateWhatsApp(){
+    let message = "Hello, I want to order:%0A";
+    cart.forEach(item => message += "- " + item + "%0A");
+    message += "Total: UGX " + total;
+    document.getElementById('whatsappBtn').href =
+    "https://wa.me/256703082106?text=" + message;
+}
+
+function toggleDark(){
+    document.body.classList.toggle("dark");
+}
+</script>
+
+</body>
+</html>
