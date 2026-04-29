@@ -1,382 +1,288 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>God is Able Foods</title>
-
-<style>
-:root {
-    --primary: #e63946;
-    --accent: #ffcc00;
-    --dark: #1a1a1a;
-    --light: #ffffff;
-}
-
-html {
-    scroll-behavior: smooth;
-}
-
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: var(--light);
-    color: var(--dark);
-    transition: 0.3s;
-}
-
-.dark {
-    background: #121212;
-    color: white;
-}
-
-/* NAVIGATION */
-nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px 5%;
-    background: white;
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-}
-
-.dark nav {
-    background: #1e1e1e;
-}
-
-.nav-links {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
-    align-items: center;
-}
-
-.nav-links a {
-    text-decoration: none;
-    color: inherit;
-    font-weight: bold;
-    transition: 0.3s;
-}
-
-.nav-links a:hover {
-    color: var(--accent);
-}
-
-/* Hamburger toggle */
-.nav-toggle {
-    display: none;
-    font-size: 1.8rem;
-    cursor: pointer;
-}
-
-/* HERO */
-.hero {
-    height: 90vh;
-    background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
-                url('https://images.unsplash.com/photo-1555939594-58d7cb561ad1') center/cover;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    color: white;
-    text-align: center;
-    padding: 0 20px;
-}
-
-.hero h1 { font-size: 3rem; margin-bottom: 10px; }
-.hero p { font-size: 1.2rem; margin-bottom: 20px; }
-
-/* BUTTON */
-.btn {
-    background: var(--accent);
-    padding: 12px 25px;
-    border-radius: 30px;
-    text-decoration: none;
-    color: black;
-    cursor: pointer;
-    font-weight: bold;
-    transition: 0.3s;
-}
-.btn:hover { transform: translateY(-3px); }
-
-/* HIGHLIGHTS */
-.highlights {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: center;
-    margin-top: 20px;
-}
-.highlight {
-    flex: 1 1 250px;
-    background: var(--primary);
-    color: white;
-    padding: 20px;
-    border-radius: 12px;
-    text-align: center;
-    font-weight: bold;
-    font-size: 1.1rem;
-    transition: transform 0.3s;
-}
-.highlight:hover { transform: translateY(-5px); }
-
-/* GRID / CARD */
-.grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit,minmax(250px,1fr));
-    gap: 20px;
-}
-.card {
-    background: white;
-    border-radius: 12px;
-    overflow: hidden;
-    transition: 0.3s;
-    position: relative;
-}
-.dark .card { background: #1e1e1e; }
-.card:hover { transform: translateY(-8px); }
-.card img {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-    transition: 0.4s;
-}
-.card:hover img { transform: scale(1.1); }
-.card-content { padding: 15px; }
-.badge {
-    position: absolute;
-    background: var(--primary);
-    color: white;
-    padding: 5px 10px;
-    font-size: 0.8rem;
-    border-radius: 5px;
-    top: 10px; left: 10px;
-}
-.rating { color: gold; margin: 5px 0; }
-
-/* CART */
-#cart {
-    position: fixed;
-    right: 10px;
-    top: 80px;
-    background: white;
-    padding: 15px;
-    width: 250px;
-    border-radius: 10px;
-    z-index: 500;
-}
-.dark #cart { background: #1e1e1e; }
-
-/* GALLERY */
-.slider { overflow: hidden; margin-top: 20px; }
-.slide-track { display: flex; animation: scroll 20s linear infinite; }
-.slide-track img {
-    width: 300px;
-    height: 200px;
-    margin-right: 15px;
-    border-radius: 10px;
-    object-fit: cover;
-}
-@keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-
-/* TESTIMONIALS */
-.testimonial-slider { overflow: hidden; background: #f8f8f8; border-radius: 10px; padding: 20px 0; margin-top: 40px; }
-.testimonial-track { display: flex; animation: testimonialScroll 25s linear infinite; }
-.testimonial-slider:hover .testimonial-track { animation-play-state: paused; }
-.testimonial { flex: 0 0 300px; margin-right: 20px; background: white; border-radius: 10px; padding: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); text-align: center; }
-.testimonial img { width: 50px; height: 50px; border-radius: 50%; margin-bottom: 10px; }
-@keyframes testimonialScroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-
-/* ABOUT US */
-.about { display: flex; flex-wrap: wrap; gap: 40px; align-items: center; justify-content: center; margin-top: 20px; }
-.about img { width: 400px; max-width: 100%; border-radius: 15px; }
-.about-text { max-width: 500px; }
-
-/* FOOTER */
-footer { background: #111; color: white; text-align: center; padding: 30px; }
-
-/* RESPONSIVE */
-@media (max-width: 768px) {
-    .nav-toggle { display: block; }
-    .nav-links { display: none; flex-direction: column; width: 100%; margin-top: 10px; }
-    .nav-links.show { display: flex; }
-    .hero h1 { font-size: 2rem; }
-    .hero p { font-size: 1rem; }
-}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>God is Able Foods | Best Fast Food in Kampala</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+  
+  <style>
+    body { font-family: 'Segoe UI', system-ui, sans-serif; }
+    .hero-bg {
+      background: linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)), 
+                  url('https://images.unsplash.com/photo-1555939594-58d7cb561ad1') center/cover no-repeat;
+    }
+    .card-hover:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+    }
+  </style>
 </head>
-
-<body>
+<body class="bg-gray-50 text-gray-800">
 
 <!-- NAV -->
-<nav>
-  <div><b>GOD IS ABLE</b></div>
-  <div class="nav-toggle" onclick="toggleMenu()">☰</div>
-  <div class="nav-links">
-    <a href="#menu">Menu</a>
-    <a href="#gallery">Gallery</a>
-    <a href="#testimonials">Testimonials</a>
-    <a href="#about">About Us</a>
-    <a href="#contact">Contact</a>
-    <button onclick="toggleDark()">🌙</button>
+<nav class="bg-white shadow-md sticky top-0 z-50">
+  <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+    <div class="flex items-center gap-2">
+      <span class="text-2xl">🔥</span>
+      <h1 class="text-2xl font-bold text-red-600">God is Able Foods</h1>
+    </div>
+    
+    <div class="hidden md:flex items-center gap-8">
+      <a href="#menu" class="font-medium hover:text-red-600 transition">Menu</a>
+      <a href="#gallery" class="font-medium hover:text-red-600 transition">Gallery</a>
+      <a href="#testimonials" class="font-medium hover:text-red-600 transition">Reviews</a>
+      <a href="#about" class="font-medium hover:text-red-600 transition">About</a>
+    </div>
+
+    <div class="flex items-center gap-4">
+      <button onclick="toggleDarkMode()" class="text-2xl hover:scale-110 transition">
+        <i class="fas fa-moon"></i>
+      </button>
+      <button onclick="toggleCart()" class="relative bg-red-600 text-white px-5 py-2 rounded-full flex items-center gap-2 hover:bg-red-700 transition">
+        <i class="fas fa-shopping-cart"></i>
+        <span id="cart-count" class="absolute -top-1 -right-1 bg-yellow-400 text-black text-xs font-bold w-5 h-5 flex items-center justify-center rounded-full">0</span>
+      </button>
+    </div>
   </div>
 </nav>
 
 <!-- HERO -->
-<section class="hero">
-  <h1>Taste the Best in Kampala</h1>
-  <p>Experience freshly prepared local dishes cooked with love. Fast, tasty, and unforgettable!</p>
-  <a href="#menu" class="btn">Order Now</a>
+<section class="hero-bg h-screen flex items-center text-white">
+  <div class="max-w-4xl mx-auto px-6 text-center">
+    <h1 class="text-5xl md:text-6xl font-bold mb-4">Taste God's Goodness</h1>
+    <p class="text-xl md:text-2xl mb-8">Fresh • Fast • Delicious • Made with Love in Kampala</p>
+    <a href="#menu" class="inline-block bg-yellow-400 hover:bg-yellow-300 text-black font-bold text-lg px-10 py-4 rounded-full transition">
+      Order Now →
+    </a>
+  </div>
 </section>
 
-<!-- HIGHLIGHTS -->
-<section class="highlights">
-  <div class="highlight">🔥 Freshly Prepared Every Day</div>
-  <div class="highlight">🍽️ Authentic Local Recipes</div>
-  <div class="highlight">🚀 Fast Delivery & Service</div>
+<!-- MENU SECTION -->
+<section id="menu" class="py-16 bg-white">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="flex flex-col md:flex-row justify-between items-center mb-10">
+      <h2 class="text-4xl font-bold text-center md:text-left">Our Menu</h2>
+      
+      <!-- Search -->
+      <div class="mt-6 md:mt-0">
+        <input type="text" id="searchInput" 
+               onkeyup="filterMenu()" 
+               placeholder="Search food..." 
+               class="w-full md:w-80 px-5 py-3 border border-gray-300 rounded-full focus:outline-none focus:border-red-500">
+      </div>
+    </div>
+
+    <!-- Categories -->
+    <div class="flex gap-3 flex-wrap mb-10" id="categories">
+      <!-- Will be populated by JS -->
+    </div>
+
+    <div id="menuGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+      <!-- Menu items populated by JavaScript -->
+    </div>
+  </div>
 </section>
 
-<!-- MENU -->
-<section id="menu">
-<h2>Menu</h2>
-<div class="grid">
-  <div class="card">
-    <div class="badge">🔥 Popular</div>
-    <img src="https://images.unsplash.com/photo-1567333528663-d086e8410c18">
-    <div class="card-content">
-      <h3>Beef Pilau</h3>
-      <div class="rating">★★★★★</div>
-      <p>Deliciously spiced beef pilau cooked with fragrant rice for a perfect meal.</p>
-      <p>UGX 10,000</p>
-      <button onclick="addToCart('Beef Pilau',10000)">Add</button>
+<!-- CART SIDEBAR -->
+<div id="cartSidebar" class="fixed top-0 right-0 h-full w-96 bg-white shadow-2xl transform translate-x-full transition-transform duration-300 z-50 overflow-y-auto">
+  <div class="p-6">
+    <div class="flex justify-between items-center mb-6">
+      <h3 class="text-2xl font-bold">Your Cart</h3>
+      <button onclick="toggleCart()" class="text-3xl text-gray-400 hover:text-black">&times;</button>
     </div>
-  </div>
-  <div class="card">
-    <div class="badge">🔥 Popular</div>
-    <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591">
-    <div class="card-content">
-      <h3>Rolex Special</h3>
-      <div class="rating">★★★★★</div>
-      <p>Rolled chapati with eggs, fresh vegetables, and your choice of meat. Kampala favorite!</p>
-      <p>UGX 5,000</p>
-      <button onclick="addToCart('Rolex Special',5000)">Add</button>
-    </div>
-  </div>
-  <div class="card">
-    <img src="https://images.unsplash.com/photo-1604908176997-125f25cc6f3d">
-    <div class="card-content">
-      <h3>Chicken & Chips</h3>
-      <div class="rating">★★★★☆</div>
-      <p>Crispy fried chicken with golden fries. Perfect comfort food.</p>
-      <p>UGX 12,000</p>
-      <button onclick="addToCart('Chicken & Chips',12000)">Add</button>
-    </div>
-  </div>
-</div>
-</section>
-
-<!-- CART -->
-<div id="cart">
-<h3>🛒 Cart</h3>
-<ul id="cart-items"></ul>
-<p>Total: UGX <span id="total">0</span></p>
-<a id="whatsappBtn" class="btn" target="_blank">Order via WhatsApp</a>
-</div>
-
-<!-- GALLERY -->
-<section id="gallery">
-<h2>Food Gallery</h2>
-<div class="slider">
-  <div class="slide-track">
-    <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836">
-    <img src="https://images.unsplash.com/photo-1499028344343-cd173ffc68a9">
-    <img src="https://images.unsplash.com/photo-1551218808-94e220e084d2">
-    <img src="https://images.unsplash.com/photo-1606787366850-de6330128bfc">
-  </div>
-</div>
-</section>
-
-<!-- TESTIMONIALS -->
-<section id="testimonials">
-<h2>What Our Customers Say</h2>
-<div class="testimonial-slider">
-  <div class="testimonial-track">
-    <div class="testimonial">
-      <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="User">
-      <p>“Absolutely love the Beef Pilau! Best in Kampala.”</p>
-      <strong>- John K.</strong>
-    </div>
-    <div class="testimonial">
-      <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="User">
-      <p>“Rolex Special is my favorite. Always fresh and tasty!”</p>
-      <strong>- Sarah L.</strong>
+    
+    <div id="cartItems" class="space-y-6 mb-8"></div>
+    
+    <div class="border-t pt-6">
+      <div class="flex justify-between text-xl font-bold mb-6">
+        <span>Total:</span>
+        <span id="cartTotal">UGX 0</span>
+      </div>
+      <button onclick="sendToWhatsApp()" 
+              class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-4 rounded-2xl flex items-center justify-center gap-3 text-lg">
+        <i class="fab fa-whatsapp text-2xl"></i>
+        Send Order via WhatsApp
+      </button>
     </div>
   </div>
 </div>
-</section>
 
-<!-- ABOUT US -->
-<section id="about">
-<h2>About Us</h2>
-<div class="about">
-  <img src="https://images.unsplash.com/photo-1600891964092-4316c288032e" alt="Our kitchen">
-  <div class="about-text">
-    <p>God is Able Fast Foods has been serving Kampala with passion and dedication. We specialize in local and continental dishes, prepared fresh daily by our skilled chefs.</p>
-    <p>Our mission is to bring authentic flavors, fast service, and an unforgettable dining experience for everyone.</p>
-  </div>
-</div>
-</section>
+<!-- GALLERY, TESTIMONIALS, ABOUT, CONTACT sections can be added later -->
 
-<!-- CONTACT -->
-<section id="contact">
-<h2>Find Us</h2>
-<iframe src="https://maps.google.com/maps?q=God%20is%20Able%20Fast%20Foods,%20Mbuya%20Kampala&z=15&output=embed" width="100%" height="300"></iframe>
-<p>📞 +256 703 082 106</p>
-<p>📍 Mbuya Road, Kampala</p>
-</section>
-
-<!-- FOOTER -->
-<footer>
-<p>© 2026 God is Able Fast Foods</p>
+<footer class="bg-gray-900 text-white py-12 text-center">
+  <p class="text-2xl mb-2">God is Able Foods</p>
+  <p>📍 Mbuya Road, Kampala • 📞 +256 703 082 106</p>
+  <p class="mt-6 text-sm text-gray-400">© 2026 | Freshly Prepared With Love</p>
 </footer>
 
 <script>
+// Menu Data
+let menuItems = [
+  { id: 1, name: "Beef Pilau", category: "Pilau", price: 12000, img: "https://images.unsplash.com/photo-1567333528663-d086e8410c18", rating: 5 },
+  { id: 2, name: "Rolex Special", category: "Rolex", price: 6000, img: "https://images.unsplash.com/photo-1513104890138-7c749659a591", rating: 5, popular: true },
+  { id: 3, name: "Chicken & Chips", category: "Chips", price: 13000, img: "https://images.unsplash.com/photo-1604908176997-125f25cc6f3d", rating: 4 },
+  { id: 4, name: "Vegetable Rolex", category: "Rolex", price: 5000, img: "https://images.unsplash.com/photo-1604908176997-125f25cc6f3d", rating: 4 },
+  { id: 5, name: "Chicken Pilau", category: "Pilau", price: 11000, img: "https://images.unsplash.com/photo-1567333528663-d086e8410c18", rating: 5 },
+  { id: 6, name: "Chips & Sausage", category: "Chips", price: 8000, img: "https://images.unsplash.com/photo-1604908176997-125f25cc6f3d", rating: 4 },
+  { id: 7, name: "Beef Burger", category: "Burgers", price: 10000, img: "https://images.unsplash.com/photo-1553979459-d2229ba7433b", rating: 4 },
+  { id: 8, name: "Fresh Juice (Mango)", category: "Drinks", price: 5000, img: "https://images.unsplash.com/photo-1600271886742-9f9c4c3b5b5f", rating: 5 }
+];
+
 let cart = [];
-let total = 0;
 
-// Add to cart
-function addToCart(name, price){
-    cart.push(name);
-    total += price;
-    document.getElementById('total').innerText = total;
-    let li = document.createElement('li');
-    li.innerText = name;
-    document.getElementById('cart-items').appendChild(li);
-    updateWhatsApp();
+// Render Menu
+function renderMenu(filteredItems) {
+  const container = document.getElementById('menuGrid');
+  container.innerHTML = '';
+
+  filteredItems.forEach(item => {
+    const div = document.createElement('div');
+    div.className = `bg-white rounded-2xl overflow-hidden card-hover border border-gray-100`;
+    div.innerHTML = `
+      <img src="${item.img}" class="w-full h-52 object-cover">
+      <div class="p-5">
+        <div class="flex justify-between items-start">
+          <h3 class="font-bold text-lg">${item.name}</h3>
+          ${item.popular ? `<span class="bg-red-600 text-white text-xs px-3 py-1 rounded-full">Popular</span>` : ''}
+        </div>
+        <p class="text-gray-500 text-sm mt-1">${item.category}</p>
+        <div class="flex items-center gap-1 my-2">
+          ${'★'.repeat(item.rating)} <span class="text-yellow-500 text-sm">(${item.rating}.0)</span>
+        </div>
+        <div class="flex justify-between items-center mt-4">
+          <span class="font-bold text-xl">UGX ${item.price.toLocaleString()}</span>
+          <button onclick="addToCart(${item.id})" 
+                  class="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded-xl text-sm font-medium transition">
+            Add +
+          </button>
+        </div>
+      </div>
+    `;
+    container.appendChild(div);
+  });
 }
 
-// Update WhatsApp link
-function updateWhatsApp(){
-    let message = "Hello, I want to order:%0A";
-    cart.forEach(item => message += "- " + item + "%0A");
-    message += "Total: UGX " + total;
-    document.getElementById('whatsappBtn').href =
-    "https://wa.me/256703082106?text=" + message;
+// Add to Cart
+function addToCart(id) {
+  const item = menuItems.find(i => i.id === id);
+  if (!item) return;
+
+  const existing = cart.find(cartItem => cartItem.id === id);
+  if (existing) {
+    existing.quantity += 1;
+  } else {
+    cart.push({ ...item, quantity: 1 });
+  }
+
+  updateCartUI();
+  showToast(`${item.name} added to cart`);
 }
 
-// Dark mode toggle
-function toggleDark(){
-    document.body.classList.toggle("dark");
+// Update Cart UI
+function updateCartUI() {
+  const count = cart.reduce((sum, item) => sum + item.quantity, 0);
+  document.getElementById('cart-count').textContent = count;
+
+  const container = document.getElementById('cartItems');
+  container.innerHTML = '';
+
+  let total = 0;
+
+  cart.forEach((item, index) => {
+    const itemTotal = item.price * item.quantity;
+    total += itemTotal;
+
+    const div = document.createElement('div');
+    div.className = "flex gap-4";
+    div.innerHTML = `
+      <div class="flex-1">
+        <p class="font-medium">${item.name}</p>
+        <p class="text-sm text-gray-500">UGX ${item.price} × ${item.quantity}</p>
+      </div>
+      <div class="text-right">
+        <p class="font-bold">UGX ${itemTotal.toLocaleString()}</p>
+        <div class="flex gap-2 mt-2">
+          <button onclick="changeQuantity(${index}, -1)" class="w-7 h-7 border rounded-lg">-</button>
+          <button onclick="changeQuantity(${index}, 1)" class="w-7 h-7 border rounded-lg">+</button>
+          <button onclick="removeFromCart(${index})" class="text-red-600 text-sm ml-2">Remove</button>
+        </div>
+      </div>
+    `;
+    container.appendChild(div);
+  });
+
+  document.getElementById('cartTotal').textContent = `UGX ${total.toLocaleString()}`;
 }
 
-// Hamburger menu toggle
-function toggleMenu() {
-    const links = document.querySelector('.nav-links');
-    links.classList.toggle('show');
+// Quantity control
+function changeQuantity(index, change) {
+  cart[index].quantity += change;
+  if (cart[index].quantity < 1) cart.splice(index, 1);
+  updateCartUI();
 }
+
+function removeFromCart(index) {
+  cart.splice(index, 1);
+  updateCartUI();
+}
+
+// Toggle Cart
+function toggleCart() {
+  const sidebar = document.getElementById('cartSidebar');
+  sidebar.classList.toggle('translate-x-full');
+}
+
+// Send to WhatsApp
+function sendToWhatsApp() {
+  if (cart.length === 0) {
+    alert("Your cart is empty!");
+    return;
+  }
+
+  let message = "Hello God is Able Foods,%0A%0AI would like to order:%0A%0A";
+  
+  cart.forEach(item => {
+    message += `• ${item.quantity}× ${item.name} - UGX ${(item.price * item.quantity).toLocaleString()}%0A`;
+  });
+
+  const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+  message += `%0ATotal: UGX ${total.toLocaleString()}%0A%0APlease confirm my order. Thank you!`;
+
+  window.open(`https://wa.me/256703082106?text=${message}`, '_blank');
+}
+
+// Simple Toast
+function showToast(msg) {
+  const toast = document.createElement('div');
+  toast.className = "fixed bottom-6 left-1/2 -translate-x-1/2 bg-gray-800 text-white px-6 py-3 rounded-2xl shadow-xl z-50";
+  toast.textContent = msg;
+  document.body.appendChild(toast);
+  setTimeout(() => toast.remove(), 2500);
+}
+
+// Dark Mode
+function toggleDarkMode() {
+  document.documentElement.classList.toggle('dark');
+}
+
+// Filter Menu
+function filterMenu() {
+  const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+  const filtered = menuItems.filter(item => 
+    item.name.toLowerCase().includes(searchTerm) || 
+    item.category.toLowerCase().includes(searchTerm)
+  );
+  renderMenu(filtered);
+}
+
+// Initialize
+document.addEventListener('DOMContentLoaded', () => {
+  renderMenu(menuItems);
+});
 </script>
 
 </body>
