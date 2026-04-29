@@ -1,3 +1,158 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>God is Able Foods | Mbuya, Kampala - Order Fresh Food Online</title>
+    <meta name="description" content="Best Rolex, Pilau, Chips & Local Dishes in Mbuya, Kampala. Fast delivery in Mbuya, Bugolobi, Nakawa & Kireka. Order now!">
+    
+    <!-- Open Graph & SEO -->
+    <meta property="og:title" content="God is Able Foods - Best Food in Mbuya">
+    <meta property="og:description" content="Fresh Rolex, Pilau, Chips & Local Dishes. Fast delivery!">
+    <meta property="og:image" content="https://images.unsplash.com/photo-1555939594-58d7cb561ad1">
+    <meta property="og:url" content="https://godisablefoods.com">
+    
+    <!-- Favicon & PWA -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍽️</text></svg>">
+    <link rel="manifest" href="data:application/manifest+json,{
+        'name': 'God is Able Foods',
+        'short_name': 'GodIsAble',
+        'icons': [{'src': 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48dGV4dCB5PSIuOWVtIiBmb250LXNpemU9IjkwIj7wn6DmPC90ZXh0Pjwvc3ZnPg==', 'sizes': '192x192', 'type': 'image/svg+xml'}],
+        'theme_color': '#dc2626',
+        'background_color': '#fef3c7',
+        'display': 'standalone'
+    }">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+        
+        * { font-family: 'Poppins', sans-serif; }
+        
+        .hero-bg {
+            background: linear-gradient(135deg, rgba(0,0,0,0.75), rgba(220,38,38,0.3)),
+                        url('https://images.unsplash.com/photo-1555939594-58d7cb561ad1') center/cover no-repeat;
+        }
+        
+        .card-hover {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .card-hover:hover {
+            transform: translateY(-12px) scale(1.02);
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #dc2626, #f59e0b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .pulse-glow {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        
+        @keyframes shimmer {
+            0% { background-position: -468px 0; }
+            100% { background-position: 468px 0; }
+        }
+        
+        .shimmer {
+            background: linear-gradient(90deg, #f3f4f6 25%, #e5e7eb 50%, #f3f4f6 75%);
+            background-size: 300% 100%;
+            animation: shimmer 1.5s infinite;
+        }
+        
+        .glass {
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: linear-gradient(#dc2626, #f59e0b); border-radius: 4px; }
+        
+        /* Loading animation */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in-up {
+            animation: fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+    </style>
+</head>
+
+<body class="bg-gradient-to-br from-orange-50 to-yellow-50 min-h-screen">
+    <!-- LOADING SCREEN -->
+    <div id="loadingScreen" class="fixed inset-0 bg-gradient-to-r from-red-600 via-orange-500 to-yellow-400 z-[999] flex items-center justify-center">
+        <div class="text-center text-white">
+            <div class="w-24 h-24 border-4 border-white/30 border-t-white rounded-full animate-spin mx-auto mb-6"></div>
+            <div class="shimmer w-32 h-8 bg-gray-200 rounded-full mx-auto mb-4"></div>
+            <div class="shimmer w-24 h-6 bg-gray-200 rounded-full mx-auto"></div>
+        </div>
+    </div>
+
+    <!-- NAV -->
+    <nav class="bg-white/95 backdrop-blur-md shadow-xl sticky top-0 z-[100] border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center py-4">
+                <!-- Logo -->
+                <div class="flex items-center gap-3 group cursor-pointer" onclick="scrollToSection('hero')">
+                    <div class="w-12 h-12 bg-gradient-to-r from-red-500 to-orange-500 rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                        <span class="text-2xl">🔥</span>
+                    </div>
+                    <div>
+                        <h1 class="text-2xl font-black gradient-text">God is Able</h1>
+                        <p class="text-xs text-gray-600 font-medium">Foods</p>
+                    </div>
+                </div>
+
+                <!-- Desktop Nav -->
+                <div class="hidden md:flex items-center gap-8">
+                    <a href="#hero" onclick="scrollToSection('hero')" class="font-medium text-gray-700 hover:text-red-600 transition-colors px-3 py-2">Home</a>
+                    <a href="#menu" onclick="scrollToSection('menu')" class="font-medium text-gray-700 hover:text-red-600 transition-colors px-3 py-2">Menu</a>
+                    <a href="#promotions" onclick="scrollToSection('promotions')" class="font-medium text-gray-700 hover:text-red-600 transition-colors px-3 py-2">Deals</a>
+                    <a href="#location" onclick="scrollToSection('location')" class="font-medium text-gray-700 hover:text-red-600 transition-colors px-3 py-2">Location</a>
+                    <a href="#contact" onclick="scrollToSection('contact')" class="font-medium text-gray-700 hover:text-red-600 transition-colors px-3 py-2">Contact</a>
+                </div>
+
+                <!-- Right side -->
+                <div class="flex items-center gap-4">
+                    <!-- Theme Toggle -->
+                    <button onclick="toggleDarkMode()" id="themeToggle" class="p-2 rounded-xl hover:bg-gray-100 transition-all text-xl" title="Toggle Dark Mode" aria-label="Toggle dark mode">
+                        <i class="fas fa-moon block dark:hidden"></i>
+                        <i class="fas fa-sun hidden dark:block"></i>
+                    </button>
+
+                    <!-- Notifications -->
+                    <button onclick="toggleNotifications()" class="relative p-2 rounded-xl hover:bg-gray-100 transition-all text-xl" title="Notifications" aria-label="Notifications">
+                        <i class="fas fa-bell"></i>
+                        <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center animate-pulse" id="notificationCount">3</span>
+                    </button>
+
+                    <!-- Cart Button -->
+                    <button onclick="toggleCart()" class="group relative bg-gradient-to-r from-red-600 to-orange-500 text-white px-6 py-3 rounded-2xl font-semibold flex items-center gap-2 hover:shadow-xl hover:-translate-y-1 transition-all shadow-lg" aria-label="Shopping cart">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span>Cart</span>
+                        <span id="cart-count" class="absolute -top-2 -right-2 bg-yellow-400 text-black text-xs font-bold w-7 h-7 rounded-full flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">0</span>
+                    </button>
+
+                    <!-- Mobile menu button -->
+                    <button class="md:hidden p-2 rounded-xl hover:bg-gray-100 transition-all" onclick="toggleMobileMenu()" aria-label="Open menu">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mobile Menu -->
+            <div id="mobileMenu" class="md:hidden hidden pb-4 border-t border-gray-100">
+                <a href="#hero" onclick="scrollToSection('hero');
                 <a href="#promotions" onclick="scrollToSection('promotions'); toggleMobileMenu()" class="block py-3 px-4 text-gray-700 hover:bg-gray-100 font-medium">Deals</a>
                 <a href="#menu" onclick="scrollToSection('menu'); toggleMobileMenu()" class="block py-3 px-4 text-gray-700 hover:bg-gray-100 font-medium">Menu</a>
                 <a href="#location" onclick="scrollToSection('location'); toggleMobileMenu()" class="block py-3 px-4 text-gray-700 hover:bg-gray-100 font-medium">Location</a>
