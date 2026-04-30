@@ -35,6 +35,7 @@
             background: linear-gradient(135deg, #dc2626, #f59e0b);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .nav-link {
@@ -56,6 +57,29 @@
             0%, 100% { transform: scale(1); }
             50% { transform: scale(1.08); }
         }
+
+        @keyframes slideInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate-slide-in-up {
+            animation: slideInUp 0.6s ease-out forwards;
+        }
+
+        .notification {
+            animation: slideInRight 0.3s ease-out;
+        }
+
+        @keyframes slideInRight {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes slideOutRight {
+            from { transform: translateX(0); opacity: 1; }
+            to { transform: translateX(100%); opacity: 0; }
+        }
     </style>
 </head>
 <body class="bg-gradient-to-br from-orange-50 to-yellow-50 min-h-screen dark:bg-gray-950">
@@ -65,6 +89,18 @@
         <div class="text-center text-white">
             <div class="w-24 h-24 border-4 border-white/30 border-t-white rounded-full animate-spin mx-auto mb-6"></div>
             <p class="text-2xl font-bold">God is Able Foods</p>
+            <p class="text-lg">Loading deliciousness...</p>
+        </div>
+    </div>
+
+    <!-- NOTIFICATION TOAST -->
+    <div id="notificationToast" class="fixed top-20 right-6 z-[1001] hidden notification bg-green-600 text-white px-6 py-4 rounded-3xl shadow-2xl max-w-sm">
+        <div class="flex items-center gap-3">
+            <i class="fas fa-check-circle text-xl"></i>
+            <span id="notificationText"></span>
+            <button onclick="hideNotification()" class="ml-auto text-white hover:text-gray-200">
+                <i class="fas fa-times"></i>
+            </button>
         </div>
     </div>
 
@@ -85,35 +121,38 @@
 
                 <!-- Desktop Menu -->
                 <div class="hidden md:flex items-center gap-8 font-medium">
-                    <a href="#hero" onclick="scrollToSection('hero')" class="nav-link text-gray-700 dark:text-gray-200">Home</a>
-                    <a href="#promotions" onclick="scrollToSection('promotions')" class="nav-link text-gray-700 dark:text-gray-200">Deals</a>
-                    <a href="#menu" onclick="scrollToSection('menu')" class="nav-link text-gray-700 dark:text-gray-200">Menu</a>
-                    <a href="#location" onclick="scrollToSection('location')" class="nav-link text-gray-700 dark:text-gray-200">Location</a>
+                    <a href="#hero" onclick="scrollToSection('hero'); event.preventDefault()" class="nav-link text-gray-700 dark:text-gray-200">Home</a>
+                    <a href="#promotions" onclick="scrollToSection('promotions'); event.preventDefault()" class="nav-link text-gray-700 dark:text-gray-200">Deals</a>
+                    <a href="#menu" onclick="scrollToSection('menu'); event.preventDefault()" class="nav-link text-gray-700 dark:text-gray-200">Menu</a>
+                    <a href="#location" onclick="scrollToSection('location'); event.preventDefault()" class="nav-link text-gray-700 dark:text-gray-200">Location</a>
                 </div>
 
                 <!-- Right Side -->
                 <div class="flex items-center gap-4">
                     <!-- Theme Toggle -->
                     <button onclick="toggleDarkMode()" 
-                            class="p-3 rounded-2xl hover:bg-gray-100 dark:hover:bg-gray-800 text-2xl transition-all">
+                            class="p-3 rounded-2xl hover:bg-gray-100 dark:hover:bg-gray-800 text-2xl transition-all"
+                            title="Toggle Dark Mode">
                         <i id="theme-icon" class="fas fa-moon text-gray-700 dark:text-yellow-300"></i>
                     </button>
 
-                    <!-- Download App -->
-                    <button onclick="downloadApp()"
-                            class="px-5 py-2.5 text-sm font-medium bg-gradient-to-r from-emerald-600 to-teal-600 text-white rounded-2xl hover:brightness-110 flex items-center gap-2">
-                        <i class="fas fa-download"></i>
-                        <span class="hidden sm:inline">Download App</span>
-                    </button>
+                    <!-- WhatsApp Button -->
+                    <a href="https://wa.me/256703082106" target="_blank"
+                       class="px-5 py-2.5 text-sm font-medium bg-gradient-to-r from-emerald-600 to-teal-600 text-white rounded-2xl hover:brightness-110 flex items-center gap-2 shadow-lg">
+                        <i class="fab fa-whatsapp"></i>
+                        <span class="hidden sm:inline">WhatsApp</span>
+                    </a>
 
                     <!-- Cart -->
                     <button onclick="toggleCart()" 
-                            class="group relative bg-gradient-to-r from-red-600 to-orange-500 text-white px-6 py-3 rounded-2xl font-semibold flex items-center gap-2 hover:shadow-xl transition-all">
+                            class="group relative bg-gradient-to-r from-red-600 to-orange-500 text-white px-6 py-3 rounded-2xl font-semibold flex items-center gap-2 hover:shadow-xl hover:brightness-110 transition-all"
+                            title="View Cart">
                         <i class="fas fa-shopping-cart"></i>
                         <span>Cart</span>
-                        <span id="cart-count" class="absolute -top-2 -right-2 bg-yellow-400 text-black text-xs font-bold w-7 h-7 rounded-full flex items-center justify-center ring-2 ring-white">0</span>
+                        <span id="cart-count" class="absolute -top-2 -right-2 bg-yellow-400 text-black text-xs font-bold w-7 h-7 rounded-full flex items-center justify-center ring-2 ring-white shadow-lg">0</span>
                     </button>
 
+                    <!-- Mobile Menu Button -->
                     <button onclick="toggleMobileMenu()" class="md:hidden p-3 rounded-2xl hover:bg-gray-100 dark:hover:bg-gray-800">
                         <i class="fas fa-bars text-2xl"></i>
                     </button>
@@ -122,31 +161,32 @@
 
             <!-- Mobile Menu -->
             <div id="mobileMenu" class="hidden md:hidden pb-6 border-t border-gray-100 dark:border-gray-700 pt-4">
-                <a href="#hero" onclick="scrollToSection('hero'); toggleMobileMenu()" class="block py-3 px-5 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-xl">Home</a>
-                <a href="#promotions" onclick="scrollToSection('promotions'); toggleMobileMenu()" class="block py-3 px-5 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-xl">Deals</a>
-                <a href="#menu" onclick="scrollToSection('menu'); toggleMobileMenu()" class="block py-3 px-5 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-xl">Menu</a>
-                <a href="#location" onclick="scrollToSection('location'); toggleMobileMenu()" class="block py-3 px-5 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-xl">Location</a>
-                <a onclick="downloadApp(); toggleMobileMenu()" class="block py-3 px-5 text-emerald-600 dark:text-emerald-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-xl">Download App</a>
+                <a href="#hero" onclick="scrollToSection('hero'); toggleMobileMenu(); event.preventDefault();" class="block py-3 px-5 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-xl">Home</a>
+                <a href="#promotions" onclick="scrollToSection('promotions'); toggleMobileMenu(); event.preventDefault();" class="block py-3 px-5 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-xl">Deals</a>
+                <a href="#menu" onclick="scrollToSection('menu'); toggleMobileMenu(); event.preventDefault();" class="block py-3 px-5 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-xl">Menu</a>
+                <a href="#location" onclick="scrollToSection('location'); toggleMobileMenu(); event.preventDefault();" class="block py-3 px-5 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-xl">Location</a>
+                <a href="https://wa.me/256703082106" target="_blank" onclick="toggleMobileMenu()" class="block py-3 px-5 text-emerald-600 dark:text-emerald-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-xl font-semibold">WhatsApp Order</a>
             </div>
         </div>
     </nav>
 
     <!-- HERO -->
     <section id="hero" class="hero-bg min-h-screen flex items-center relative text-white overflow-hidden">
+        <div class="absolute inset-0 bg-black/20"></div>
         <div class="max-w-6xl mx-auto px-6 text-center relative z-10">
-            <div class="inline-flex items-center gap-2 bg-yellow-400/90 backdrop-blur-sm px-5 py-2 rounded-full mb-6 font-semibold text-yellow-900">
+            <div class="inline-flex items-center gap-2 bg-yellow-400/90 backdrop-blur-sm px-5 py-2 rounded-full mb-6 font-semibold text-yellow-900 shadow-lg">
                 <i class="fas fa-crown"></i>
                 <span>#1 Rated Food Spot in Mbuya</span>
             </div>
-            <h1 class="text-5xl md:text-7xl font-black leading-tight mb-6">
+            <h1 class="text-5xl md:text-7xl font-black leading-tight mb-6 animate-slide-in-up">
                 Fresh Food,<br><span class="gradient-text">Made With Love</span>
             </h1>
-            <p class="text-xl md:text-2xl max-w-3xl mx-auto mb-10">
+            <p class="text-xl md:text-2xl max-w-3xl mx-auto mb-10 animate-slide-in-up animation-delay-300">
                 Best Rolex, Pilau, Chips & Local Dishes in Kampala.<br>
                 <strong class="text-yellow-300">30–45 min delivery • Mbuya • Bugolobi • Nakawa • Kireka</strong>
             </p>
-            <a href="#menu" onclick="scrollToSection('menu')"
-               class="inline-flex items-center gap-3 bg-gradient-to-r from-red-600 to-orange-500 hover:from-red-700 hover:to-orange-600 text-white font-bold text-lg px-12 py-5 rounded-3xl shadow-2xl transition-all">
+            <a href="#menu" onclick="scrollToSection('menu'); event.preventDefault()"
+               class="inline-flex items-center gap-3 bg-gradient-to-r from-red-600 to-orange-500 hover:from-red-700 hover:to-orange-600 text-white font-bold text-lg px-12 py-5 rounded-3xl shadow-2xl transition-all hover:shadow-3xl floating-btn animate-slide-in-up animation-delay-600">
                 <i class="fas fa-utensils"></i>
                 <span>View Menu & Order Now</span>
             </a>
@@ -156,36 +196,42 @@
     <!-- PROMOTIONS -->
     <section id="promotions" class="py-20 bg-gradient-to-r from-red-50 via-orange-50 to-yellow-50 dark:from-gray-900 dark:to-gray-800">
         <div class="max-w-7xl mx-auto px-6">
-            <h2 class="text-4xl md:text-5xl font-black text-center mb-16 gradient-text">🔥 Today's Specials</h2>
+            <h2 class="text-4xl md:text-5xl font-black text-center mb-16 gradient-text animate-slide-in-up">#1 🔥 Today's Specials</h2>
             <div class="grid md:grid-cols-3 gap-8">
-                <div class="group bg-white dark:bg-gray-800 rounded-3xl p-6 card-hover border border-gray-100">
+                <div class="group bg-white dark:bg-gray-800 rounded-3xl p-8 card-hover border border-gray-100 shadow-lg animate-slide-in-up animation-delay-200">
                     <img src="https://images.unsplash.com/photo-1598866594230-a7c459a1a0f1?w=600" 
-                         alt="Rolex" class="w-full h-52 object-cover rounded-2xl mb-6">
-                    <h3 class="text-2xl font-bold mb-2">Rolex Combo Deal</h3>
+                         alt="Rolex Combo" class="w-full h-52 object-cover rounded-2xl mb-6 group-hover:scale-105 transition-transform duration-300">
+                    <h3 class="text-2xl font-bold mb-2 text-gray-900 dark:text-white">Rolex Combo Deal</h3>
                     <p class="text-gray-600 dark:text-gray-400 mb-4">Special Rolex + Chapati + Juice</p>
                     <div class="text-3xl font-black text-red-600 mb-6">UGX 12,000</div>
                     <button onclick="addSpecialToCart(1)" 
-                            class="w-full bg-gradient-to-r from-green-500 to-emerald-600 text-white py-4 rounded-2xl font-bold">Add to Cart</button>
+                            class="w-full bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white py-4 rounded-2xl font-bold shadow-lg hover:shadow-xl transition-all">
+                        <i class="fas fa-plus mr-2"></i>Add to Cart
+                    </button>
                 </div>
 
-                <div class="group bg-white dark:bg-gray-800 rounded-3xl p-6 card-hover border border-gray-100">
+                <div class="group bg-white dark:bg-gray-800 rounded-3xl p-8 card-hover border border-gray-100 shadow-lg animate-slide-in-up animation-delay-400">
                     <img src="https://images.unsplash.com/photo-1631515243349-e0cb75fb8d3a?w=600" 
-                         alt="Pilau" class="w-full h-52 object-cover rounded-2xl mb-6">
-                    <h3 class="text-2xl font-bold mb-2">Family Pilau Pack</h3>
+                         alt="Family Pilau" class="w-full h-52 object-cover rounded-2xl mb-6 group-hover:scale-105 transition-transform duration-300">
+                    <h3 class="text-2xl font-bold mb-2 text-gray-900 dark:text-white">Family Pilau Pack</h3>
                     <p class="text-gray-600 dark:text-gray-400 mb-4">Chicken Pilau for 4 people</p>
                     <div class="text-3xl font-black text-red-600 mb-6">UGX 38,000</div>
                     <button onclick="addSpecialToCart(2)" 
-                            class="w-full bg-gradient-to-r from-green-500 to-emerald-600 text-white py-4 rounded-2xl font-bold">Order Family Pack</button>
+                            class="w-full bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white py-4 rounded-2xl font-bold shadow-lg hover:shadow-xl transition-all">
+                        <i class="fas fa-shopping-bag mr-2"></i>Order Family Pack
+                    </button>
                 </div>
 
-                <div class="group bg-white dark:bg-gray-800 rounded-3xl p-6 card-hover border border-gray-100">
+                <div class="group bg-white dark:bg-gray-800 rounded-3xl p-8 card-hover border border-gray-100 shadow-lg animate-slide-in-up animation-delay-600">
                     <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a9c?w=600" 
-                         alt="Juices" class="w-full h-52 object-cover rounded-2xl mb-6">
-                    <h3 class="text-2xl font-bold mb-2">Drink Bundle</h3>
+                         alt="Drink Bundle" class="w-full h-52 object-cover rounded-2xl mb-6 group-hover:scale-105 transition-transform duration-300">
+                    <h3 class="text-2xl font-bold mb-2 text-gray-900 dark:text-white">Drink Bundle</h3>
                     <p class="text-gray-600 dark:text-gray-400 mb-4">4 Fresh Juices - Any Flavor</p>
                     <div class="text-3xl font-black text-red-600 mb-6">UGX 15,000</div>
                     <button onclick="addSpecialToCart(3)" 
-                            class="w-full bg-gradient-to-r from-green-500 to-emerald-600 text-white py-4 rounded-2xl font-bold">Add Drink Bundle</button>
+                            class="w-full bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white py-4 rounded-2xl font-bold shadow-lg hover:shadow-xl transition-all">
+                        <i class="fas fa-plus mr-2"></i>Add Drink Bundle
+                    </button>
                 </div>
             </div>
         </div>
@@ -194,35 +240,56 @@
     <!-- MENU SECTION -->
     <section id="menu" class="py-24 bg-white dark:bg-gray-900">
         <div class="max-w-7xl mx-auto px-6">
-            <div class="text-center mb-16">
+            <div class="text-center mb-16 animate-slide-in-up">
                 <h2 class="text-5xl md:text-6xl font-black mb-6 gradient-text">Our Delicious Menu</h2>
+                <p class="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">Freshly prepared daily with love from Mbuya</p>
             </div>
+            
             <div class="flex flex-wrap gap-3 justify-center mb-12" id="categoryFilters"></div>
             
             <div class="max-w-2xl mx-auto mb-12">
                 <div class="relative">
-                    <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
-                    <input type="text" id="menuSearch" placeholder="Search for Rolex, Pilau, Chips..."
-                           class="w-full pl-12 pr-6 py-4 border-2 border-gray-200 dark:border-gray-700 rounded-3xl text-lg focus:border-red-400 focus:outline-none">
+                    <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 z-10"></i>
+                    <input type="text" id="menuSearch" placeholder="Search for Rolex, Pilau, Chips..." 
+                           class="w-full pl-12 pr-6 py-4 border-2 border-gray-200 dark:border-gray-700 rounded-3xl text-lg focus:border-red-400 focus:outline-none focus:ring-4 focus:ring-red-100 dark:focus:ring-red-900/50 transition-all shadow-lg">
                 </div>
             </div>
             <div id="menuGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6 lg:gap-8"></div>
+            <div id="noResults" class="hidden col-span-full text-center py-20">
+                <i class="fas fa-search text-6xl text-gray-400 mb-6"></i>
+                <h3 class="text-2xl font-bold text-gray-600 dark:text-gray-400 mb-2">No results found</h3>
+                <p class="text-gray-500 dark:text-gray-500">Try searching for something else</p>
+            </div>
         </div>
     </section>
 
     <!-- LOCATION -->
     <section id="location" class="py-24 bg-gradient-to-br from-red-50 to-orange-50 dark:from-gray-900">
         <div class="max-w-7xl mx-auto px-6">
-            <div class="text-center mb-16">
+            <div class="text-center mb-16 animate-slide-in-up">
                 <h2 class="text-5xl md:text-6xl font-black gradient-text">Find Us Here</h2>
+                <p class="text-xl text-gray-600 dark:text-gray-400 mt-4 max-w-2xl mx-auto">Easy access from Mbuya, Bugolobi, Nakawa & Kireka</p>
             </div>
-            <div class="rounded-3xl overflow-hidden shadow-2xl mb-12">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3989.757!2d32.6247!3d0.3232!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x177dd8f5b5b5b5b5%3A0x1234567890abcdef!2sMbuya%2C%20Kampala!5e0!3m2!1sen!2sug!4v1746000000000"
-                        width="100%" height="500" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+            <div class="rounded-3xl overflow-hidden shadow-2xl mb-12 animate-slide-in-up animation-delay-200">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3989.757445518239!2d32.624712614799!3d0.32324579999999997!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x177dd8f5b5b5b5b5%3A0x1234567890abcdef!2sMbuya%2C%20Kampala%2C%20Uganda!5e0!3m2!1sen!2sug!4v1699999999999!5m2!1sen!2sug"
+                        width="100%" height="500" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
-            <div class="text-center">
-                <p class="text-xl font-semibold">Mbuya Road, Mbuya Hill, Kampala, Uganda</p>
-                <p class="text-gray-600 dark:text-gray-400 mt-2">Open Daily: 7:00 AM - 10:00 PM</p>
+            <div class="text-center animate-slide-in-up animation-delay-400">
+                <p class="text-2xl font-bold text-gray-900 dark:text-white mb-4">Mbuya Road, Mbuya Hill, Kampala, Uganda</p>
+                <div class="grid md:grid-cols-3 gap-6 max-w-2xl mx-auto text-lg">
+                    <div class="flex items-center justify-center gap-3 p-4 bg-white/50 dark:bg-gray-800/50 rounded-2xl backdrop-blur-sm">
+                        <i class="fas fa-clock text-2xl text-red-600"></i>
+                        <span>Open Daily: 7AM - 10PM</span>
+                    </div>
+                    <div class="flex items-center justify-center gap-3 p-4 bg-white/50 dark:bg-gray-800/50 rounded-2xl backdrop-blur-sm">
+                        <i class="fas fa-motorcycle text-2xl text-emerald-600"></i>
+                        <span>30-45 min delivery</span>
+                    </div>
+                    <div class="flex items-center justify-center gap-3 p-4 bg-white/50 dark:bg-gray-800/50 rounded-2xl backdrop-blur-sm">
+                        <i class="fas fa-phone text-2xl text-blue-600"></i>
+                        <span>+256 703 082 106</span>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -230,65 +297,90 @@
     <!-- CART SIDEBAR -->
     <div id="cartSidebar" class="fixed top-0 right-0 h-full w-96 bg-white dark:bg-gray-900 shadow-2xl translate-x-full transition-transform duration-300 z-[1000] overflow-y-auto">
         <div class="p-6">
-            <div class="flex justify-between items-center mb-6">
+            <div class="flex justify-between items-center mb-8">
                 <h3 class="text-3xl font-black gradient-text">Your Cart</h3>
-                <button onclick="toggleCart()" class="text-4xl hover:text-red-600">&times;</button>
+                <button onclick="toggleCart()" class="text-4xl hover:text-red-600 transition-colors p-2 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800">&times;</button>
             </div>
             <div id="cartItems" class="space-y-4 min-h-[400px] mb-8"></div>
-            <div class="bg-gray-50 dark:bg-gray-800 rounded-2xl p-6">
-                <div class="flex justify-between text-2xl font-bold mb-6">
+            
+            <div class="bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-3xl p-8 sticky bottom-0 shadow-2xl border border-gray-200 dark:border-gray-700">
+                <div class="flex justify-between text-2xl font-bold mb-6 text-gray-900 dark:text-white">
                     <span>Total</span>
                     <span id="cartTotal">UGX 0</span>
                 </div>
+                <div class="space-y-3 mb-6 text-sm text-gray-600 dark:text-gray-400">
+                    <div class="flex justify-between">
+                        <span>Delivery Fee</span>
+                        <span>Free</span>
+                    </div>
+                    <div class="flex justify-between font-semibold">
+                        <span>Subtotal</span>
+                        <span id="cartSubtotal">UGX 0</span>
+                    </div>
+                </div>
                 <button onclick="sendToWhatsApp()"
-                        class="w-full bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white py-5 rounded-2xl font-bold text-lg flex items-center justify-center gap-3">
+                        class="w-full bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white py-5 rounded-3xl font-bold text-lg flex items-center justify-center gap-3 shadow-2xl hover:shadow-3xl transition-all text-xl">
                     <i class="fab fa-whatsapp text-2xl"></i>
-                    Order via WhatsApp
+                    Send Order to WhatsApp
                 </button>
+                <p class="text-center text-xs text-gray-500 mt-4">Fast response guaranteed! 📱</p>
             </div>
         </div>
     </div>
 
+    <!-- MOBILE CART OVERLAY -->
+    <div id="cartOverlay" class="fixed inset-0 bg-black/50 z-[999] hidden"></div>
+
     <!-- FOOTER -->
-    <footer class="bg-gradient-to-r from-gray-900 via-black to-gray-900 text-white py-16">
-        <div class="max-w-7xl mx-auto px-6">
+    <footer class="bg-gradient-to-r from-gray-900 via-black to-gray-900 text-white py-16 relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-r from-red-500/10 via-orange-500/5 to-yellow-500/10"></div>
+        <div class="max-w-7xl mx-auto px-6 relative">
             <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
                 <div>
                     <div class="flex items-center gap-3 mb-6">
-                        <div class="w-14 h-14 bg-gradient-to-r from-red-500 to-orange-500 rounded-2xl flex items-center justify-center">
+                        <div class="w-14 h-14 bg-gradient-to-r from-red-500 to-orange-500 rounded-2xl flex items-center justify-center shadow-xl">
                             <span class="text-3xl">🔥</span>
                         </div>
                         <div>
                             <h3 class="text-2xl font-black">God is Able Foods</h3>
-                            <p class="text-yellow-400">#1 in Mbuya</p>
+                            <p class="text-yellow-400 font-semibold">#1 in Mbuya</p>
                         </div>
                     </div>
-                    <p class="text-gray-400">Serving Kampala's finest Rolex, Pilau, and local dishes with love and speed.</p>
+                    <p class="text-gray-400 leading-relaxed">Serving Kampala's finest Rolex, Pilau, and local dishes with love and speed. Freshly prepared every day!</p>
                 </div>
                 <div>
-                    <h4 class="font-bold mb-6">Quick Links</h4>
-                    <ul class="space-y-2 text-gray-400">
-                        <li><a href="#menu" onclick="scrollToSection('menu')" class="hover:text-white">Menu</a></li>
-                        <li><a href="#promotions" onclick="scrollToSection('promotions')" class="hover:text-white">Deals</a></li>
-                        <li><a href="#location" onclick="scrollToSection('location')" class="hover:text-white">Location</a></li>
+                    <h4 class="font-bold text-lg mb-6">Quick Links</h4>
+                    <ul class="space-y-3 text-gray-400">
+                        <li><a href="#menu" onclick="scrollToSection('menu'); event.preventDefault()" class="hover:text-white transition-colors flex items-center gap-2"><i class="fas fa-utensils"></i>Menu</a></li>
+                        <li><a href="#promotions" onclick="scrollToSection('promotions'); event.preventDefault()" class="hover:text-white transition-colors flex items-center gap-2"><i class="fas fa-tags"></i>Deals</a></li>
+                        <li><a href="#location" onclick="scrollToSection('location'); event.preventDefault()" class="hover:text-white transition-colors flex items-center gap-2"><i class="fas fa-map-marker-alt"></i>Location</a></li>
                     </ul>
                 </div>
                 <div>
-                    <h4 class="font-bold mb-6">Delivery Areas</h4>
+                    <h4 class="font-bold text-lg mb-6">Delivery Areas</h4>
                     <ul class="space-y-2 text-gray-400">
-                        <li>Mbuya</li>
-                        <li>Bugolobi</li>
-                        <li>Nakawa</li>
-                        <li>Kireka</li>
+                        <li class="flex items-center gap-2"><i class="fas fa-check text-emerald-400"></i>Mbuya</li>
+                        <li class="flex items-center gap-2"><i class="fas fa-check text-emerald-400"></i>Bugolobi</li>
+                        <li class="flex items-center gap-2"><i class="fas fa-check text-emerald-400"></i>Nakawa</li>
+                        <li class="flex items-center gap-2"><i class="fas fa-check text-emerald-400"></i>Kireka</li>
                     </ul>
                 </div>
                 <div>
-                    <h4 class="font-bold mb-6">Contact</h4>
-                    <a href="tel:+256703082106" class="block text-yellow-400 hover:text-white font-semibold">+256 703 082 106</a>
+                    <h4 class="font-bold text-lg mb-6">Contact</h4>
+                    <div class="space-y-3">
+                        <a href="tel:+256703082106" class="flex items-center gap-3 text-yellow-400 hover:text-white font-semibold transition-all p-3 rounded-xl hover:bg-white/10">
+                            <i class="fas fa-phone text-xl"></i>
+                            +256 703 082 106
+                        </a>
+                        <a href="https://wa.me/256703082106" target="_blank" class="flex items-center gap-3 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold transition-all p-3 rounded-xl shadow-lg">
+                            <i class="fab fa-whatsapp text-xl"></i>
+                            WhatsApp
+                        </a>
+                    </div>
                 </div>
             </div>
             <div class="text-center text-sm text-gray-500 border-t border-gray-800 pt-8">
-                &copy; 2026 God is Able Foods. Freshly Prepared Every Day in Kampala.
+                &copy; 2026 God is Able Foods. <span class="text-yellow-400 font-semibold">Freshly Prepared Every Day in Kampala.</span>
             </div>
         </div>
     </footer>
@@ -302,23 +394,24 @@
                     { id:3, name:"Chicken & Chips", category:"Chips", price:13000, img:"https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?w=600", rating:4.7 },
                     { id:4, name:"Vegetable Rolex", category:"Rolex", price:5000, img:"https://images.unsplash.com/photo-1621996346565-e3dbc353d2e5?w=600", rating:4.6 },
                     { id:5, name:"Chicken Pilau", category:"Pilau", price:11000, img:"https://images.unsplash.com/photo-1631515243349-e0cb75fb8d3a?w=600", rating:4.8 },
-                    { id:6, name:"Chips & Sausage", category:"Chips", price:8000, img:"https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?w=600", rating:4.5 },
+                    { id:6, name:"Chips & Sausage", category:"Chips", price:8000, img:"https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=600", rating:4.5 },
                     { id:7, name:"Beef Burger", category:"Burgers", price:10000, img:"https://images.unsplash.com/photo-1553979459-d2229ba7433b?w=600", rating:4.7 },
                     { id:8, name:"Mango Juice", category:"Drinks", price:5000, img:"https://images.unsplash.com/photo-1600585154340-be6161a56a9c?w=600", rating:4.9 },
-                    { id:9, name:"Gonja (Roasted Plantain)", category:"Snacks", price:3000, img:"https://images.unsplash.com/photo-1621996346565-e3dbc353d2e5?w=600", rating:4.6 },
+                    { id:9, name:"Gonja (Roasted Plantain)", category:"Snacks", price:3000, img:"https://images.unsplash.com/photo-1579586140626-0a78b7a82280?w=600", rating:4.6 },
                     { id:10, name:"Chapati", category:"Sides", price:2000, img:"https://images.unsplash.com/photo-1513104890138-7c749659a591?w=600", rating:4.8 },
-                    { id:11, name:"Samosa (Beef)", category:"Snacks", price:2500, img:"https://images.unsplash.com/photo-1553979459-d2229ba7433b?w=600", rating:4.7 },
-                    { id:12, name:"Fresh Orange Juice", category:"Drinks", price:4500, img:"https://images.unsplash.com/photo-1600585154340-be6161a56a9c?w=600", rating:4.9 },
-                    { id:13, name:"Fish & Chips", category:"Chips", price:15000, img:"https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?w=600", rating:4.8 },
+                    { id:11, name:"Samosa (Beef)", category:"Snacks", price:2500, img:"https://images.unsplash.com/photo-1617096709696-8ea035d6b4c8?w=600", rating:4.7 },
+                    { id:12, name:"Fresh Orange Juice", category:"Drinks", price:4500, img:"https://images.unsplash.com/photo-1571933561358-2c251ee61a95?w=600", rating:4.9 },
+                    { id:13, name:"Fish & Chips", category:"Chips", price:15000, img:"https://images.unsplash.com/photo-1577612487662-451b137f219f?w=600", rating:4.8 },
                     { id:14, name:"Egg Roll", category:"Rolex", price:4000, img:"https://images.unsplash.com/photo-1598866594230-a7c459a1a0f1?w=600", rating:4.6 },
                     { id:15, name:"Mandazi", category:"Snacks", price:1500, img:"https://images.unsplash.com/photo-1621996346565-e3dbc353d2e5?w=600", rating:4.5 },
                     { id:16, name:"Goat Meat Stew", category:"Main", price:18000, img:"https://images.unsplash.com/photo-1631515243349-e0cb75fb8d3a?w=600", rating:4.9 },
-                    { id:17, name:"Pineapple Juice", category:"Drinks", price:4500, img:"https://images.unsplash.com/photo-1600585154340-be6161a56a9c?w=600", rating:4.8 }
+                    { id:17, name:"Pineapple Juice", category:"Drinks", price:4500, img:"https://images.unsplash.com/photo-1571771894821-ce9b6c119401?w=600", rating:4.8 }
                 ];
 
                 this.cart = JSON.parse(localStorage.getItem('godisabled_cart')) || [];
                 this.filteredItems = [...this.menuItems];
                 this.isDarkMode = localStorage.getItem('darkMode') === 'true';
+                this.notificationTimeout = null;
 
                 if (this.isDarkMode) document.documentElement.classList.add('dark');
 
@@ -339,43 +432,55 @@
                     const loading = document.getElementById('loadingScreen');
                     if (loading) {
                         loading.style.opacity = '0';
+                        loading.style.transform = 'scale(0.9)';
                         setTimeout(() => loading.remove(), 600);
                     }
-                }, 1200);
+                }, 1500);
             }
 
             renderCategoryFilters() {
                 const categories = ['all', ...new Set(this.menuItems.map(item => item.category))];
                 const container = document.getElementById('categoryFilters');
                 container.innerHTML = categories.map(cat => `
-                    <button class="category-filter px-6 py-3 rounded-2xl font-semibold transition-all ${cat === 'all' ? 'bg-red-600 text-white' : 'bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600'}" 
+                    <button class="category-filter px-6 py-3 rounded-2xl font-semibold transition-all shadow-md ${cat === 'all' ? 'bg-red-600 text-white shadow-red-500/25' : 'bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 hover:shadow-lg'}" 
                             data-category="${cat}">
-                        ${cat === 'all' ? 'All Menu' : cat.charAt(0).toUpperCase() + cat.slice(1)}
+                        ${cat === 'all' ? '<i class="fas fa-th mr-2"></i>All Menu' : cat.charAt(0).toUpperCase() + cat.slice(1)}
                     </button>
                 `).join('');
             }
 
-            renderMenu(items = this.filteredItems.slice(0, 12)) {
+            renderMenu(items = this.filteredItems) {
                 const container = document.getElementById('menuGrid');
+                const noResults = document.getElementById('noResults');
+                
+                if (items.length === 0) {
+                    container.classList.add('hidden');
+                    noResults.classList.remove('hidden');
+                    return;
+                }
+                
+                container.classList.remove('hidden');
+                noResults.classList.add('hidden');
+                
                 container.innerHTML = items.map(item => `
-                    <div class="bg-white dark:bg-gray-800 rounded-3xl overflow-hidden card-hover shadow-lg group border border-gray-100 dark:border-gray-700">
+                    <div class="bg-white dark:bg-gray-800 rounded-3xl overflow-hidden card-hover shadow-lg group border border-gray-100 dark:border-gray-700 animate-slide-in-up">
                         <div class="relative overflow-hidden">
                             <img src="${item.img}" alt="${item.name}" class="w-full h-56 object-cover group-hover:scale-110 transition-transform duration-500" loading="lazy">
-                            ${item.popular ? `<div class="absolute top-3 left-3 bg-gradient-to-r from-red-500 to-orange-500 text-white px-3 py-1 rounded-full text-xs font-bold">POPULAR</div>` : ''}
+                            ${item.popular ? `<div class="absolute top-4 left-4 bg-gradient-to-r from-red-500 to-orange-500 text-white px-3 py-1 rounded-full text-xs font-bold shadow-lg">⭐ POPULAR</div>` : ''}
+                            <div class="absolute top-4 right-4 bg-black/70 text-white px-3 py-1 rounded-full text-sm font-bold">
+                                ${item.rating}
+                                <i class="fas fa-star ml-1 text-yellow-400"></i>
+                            </div>
                         </div>
                         <div class="p-6">
-                            <div class="flex items-center gap-2 mb-3">
-                                <div class="flex text-yellow-400 text-sm">${[...Array(5)].map((_, i) => `<i class="fas fa-star ${i < Math.floor(item.rating) ? '' : 'text-gray-300'}"></i>`).join('')}</div>
-                                <span class="text-xs text-gray-500">(${item.rating})</span>
-                            </div>
-                            <h3 class="font-bold text-xl mb-3">${item.name}</h3>
-                            <div class="flex justify-between items-center">
+                            <h3 class="font-bold text-xl mb-3 text-gray-900 dark:text-white line-clamp-2">${item.name}</h3>
+                            <div class="flex justify-between items-center mb-4">
                                 <span class="text-2xl font-black text-red-600">UGX ${item.price.toLocaleString()}</span>
-                                <button onclick="addToCart(${item.id})" 
-                                        class="bg-gradient-to-r from-red-600 to-orange-500 text-white px-6 py-3 rounded-xl font-bold hover:brightness-110 transition-all">
-                                    Add
-                                </button>
                             </div>
+                            <button onclick="addToCart(${item.id})" 
+                                    class="w-full bg-gradient-to-r from-red-600 to-orange-500 hover:from-red-700 hover:to-orange-600 text-white py-3 rounded-xl font-bold hover:shadow-xl transition-all group-add">
+                                <i class="fas fa-plus mr-2"></i>Add to Cart
+                            </button>
                         </div>
                     </div>
                 `).join('');
@@ -384,54 +489,96 @@
             addToCart(id) {
                 const item = this.menuItems.find(i => i.id === id);
                 if (!item) return;
+                
                 const existing = this.cart.find(i => i.id === id);
-                if (existing) existing.quantity += 1;
-                else this.cart.push({ ...item, quantity: 1 });
+                if (existing) {
+                    existing.quantity += 1;
+                } else {
+                    this.cart.push({ ...item, quantity: 1 });
+                }
 
                 this.saveCart();
                 this.updateCartUI();
-                this.showNotification(`Added ${item.name} to cart!`);
+                this.showNotification(`Added ${item.name} to cart! ✅`);
+            }
+
+            addSpecialToCart(specialId) {
+                const specials = [
+                    {name:"Rolex Combo Deal", price:12000, img:"https://images.unsplash.com/photo-1598866594230-a7c459a1a0f1?w=600"},
+                    {name:"Family Pilau Pack", price:38000, img:"https://images.unsplash.com/photo-1631515243349-e0cb75fb8d3a?w=600"},
+                    {name:"Drink Bundle", price:15000, img:"https://images.unsplash.com/photo-1600585154340-be6161a56a9c?w=600"}
+                ];
+                
+                const special = specials[specialId - 1];
+                if (special) {
+                    const specialItem = {...special, quantity: 1, id: `special_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`};
+                    this.cart.push(specialItem);
+                    this.saveCart();
+                    this.updateCartUI();
+                    this.showNotification(`Added ${special.name} to cart! 🎉`);
+                }
             }
 
             updateCartUI() {
                 const count = this.cart.reduce((sum, i) => sum + (i.quantity || 1), 0);
-                document.getElementById('cart-count').textContent = count;
+                document.getElementById('cart-count').textContent = count || '0';
 
                 const cartItemsEl = document.getElementById('cartItems');
                 let subtotal = 0;
 
                 if (this.cart.length === 0) {
-                    cartItemsEl.innerHTML = `<div class="text-center py-12"><p class="text-gray-500 dark:text-gray-400">Your cart is empty</p></div>`;
+                    cartItemsEl.innerHTML = `
+                        <div class="text-center py-20">
+                            <i class="fas fa-shopping-cart text-6xl text-gray-300 dark:text-gray-600 mb-6"></i>
+                            <h3 class="text-2xl font-bold text-gray-500 dark:text-gray-400 mb-2">Your cart is empty</h3>
+                            <p class="text-gray-400 dark:text-gray-500">Add some delicious items to get started</p>
+                        </div>
+                    `;
                 } else {
                     cartItemsEl.innerHTML = this.cart.map(item => {
-                        const itemTotal = item.price * item.quantity;
+                        const itemTotal = item.price * (item.quantity || 1);
                         subtotal += itemTotal;
                         return `
-                            <div class="flex gap-4 p-4 bg-gray-50 dark:bg-gray-800 rounded-2xl">
-                                <img src="${item.img}" class="w-20 h-20 rounded-xl object-cover">
-                                <div class="flex-1">
-                                    <h4 class="font-bold">${item.name}</h4>
-                                    <p class="text-red-600 font-semibold">UGX ${itemTotal.toLocaleString()}</p>
-                                    <div class="flex items-center gap-3 mt-2">
-                                        <button onclick="updateQuantity(${item.id}, -1)" class="w-8 h-8 border rounded-lg">-</button>
-                                        <span>${item.quantity}</span>
-                                        <button onclick="updateQuantity(${item.id}, 1)" class="w-8 h-8 border rounded-lg">+</button>
+                            <div class="flex gap-4 p-5 bg-gray-50 dark:bg-gray-800/50 rounded-3xl border border-gray-200 dark:border-gray-700 hover:shadow-lg transition-all">
+                                <img src="${item.img}" alt="${item.name}" class="w-20 h-20 rounded-2xl object-cover flex-shrink-0 shadow-md">
+                                <div class="flex-1 min-w-0">
+                                    <h4 class="font-bold text-gray-900 dark:text-white line-clamp-2 mb-1">${item.name}</h4>
+                                    <p class="text-red-600 font-bold text-lg mb-3">UGX ${itemTotal.toLocaleString()}</p>
+                                    <div class="flex items-center gap-3">
+                                        <button onclick="updateQuantity('${item.id}', -1)" class="w-10 h-10 bg-white dark:bg-gray-700 border-2 border-gray-300 dark:border-gray-600 rounded-xl flex items-center justify-center text-xl hover:bg-red-50 dark:hover:bg-red-900/20 transition-all shadow-sm">-</button>
+                                        <span class="text-xl font-bold min-w-[2ch] text-center">${item.quantity || 1}</span>
+                                        <button onclick="updateQuantity('${item.id}', 1)" class="w-10 h-10 bg-gradient-to-r from-emerald-500 to-teal-600 text-white border-2 border-emerald-500 rounded-xl flex items-center justify-center text-xl hover:from-emerald-600 hover:to-teal-700 transition-all shadow-lg">+</button>
+                                        <button onclick="removeFromCart('${item.id}')" class="ml-auto p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-xl transition-all">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </button>
                                     </div>
                                 </div>
-                            </div>`;
+                            </div>
+                        `;
                     }).join('');
                 }
+                
                 document.getElementById('cartTotal').textContent = `UGX ${subtotal.toLocaleString()}`;
+                document.getElementById('cartSubtotal').textContent = `UGX ${subtotal.toLocaleString()}`;
             }
 
             updateQuantity(id, change) {
                 const item = this.cart.find(i => i.id === id);
                 if (item) {
-                    item.quantity += change;
-                    if (item.quantity <= 0) this.cart = this.cart.filter(i => i.id !== id);
+                    item.quantity = Math.max(1, (item.quantity || 1) + change);
+                    if (item.quantity <= 0) {
+                        this.cart = this.cart.filter(i => i.id !== id);
+                    }
                     this.saveCart();
                     this.updateCartUI();
                 }
+            }
+
+            removeFromCart(id) {
+                this.cart = this.cart.filter(i => i.id !== id);
+                this.saveCart();
+                this.updateCartUI();
+                this.showNotification('Item removed from cart! 🗑️');
             }
 
             saveCart() {
@@ -439,46 +586,97 @@
             }
 
             sendToWhatsApp() {
-                if (this.cart.length === 0) return this.showNotification('Cart is empty!');
+                if (this.cart.length === 0) {
+                    this.showNotification('Your cart is empty! Add some items first. 🛒');
+                    return;
+                }
                 
-                let msg = "*🍽️ God is Able Foods - New Order*%0A%0A";
+                let msg = "*🍽️ God is Able Foods - NEW ORDER* %0A%0A";
                 let total = 0;
+                let itemsText = '';
+                
                 this.cart.forEach(item => {
-                    const itemTotal = item.price * item.quantity;
-                    msg += `• ${item.quantity}x ${item.name} - UGX ${itemTotal.toLocaleString()}%0A`;
+                    const qty = item.quantity || 1;
+                    const itemTotal = item.price * qty;
+                    itemsText += `• ${qty}x ${item.name}  -  UGX ${itemTotal.toLocaleString()}%0A`;
                     total += itemTotal;
                 });
-                msg += `%0A*Total: UGX ${total.toLocaleString()}*%0A%0A`;
-                msg += `📍 Mbuya Road, Kampala%0A`;
+                
+                msg += itemsText;
+                msg += `%0A💰 *Total: UGX ${total.toLocaleString()}*%0A`;
+                msg += `%0A📍 Delivery to: [Your Location]%0A`;
                 msg += `⏱️ Expected: 30-45 minutes%0A`;
-                msg += `Please confirm 🙏 God bless you!`;
+                msg += `%0A🙏 Please confirm order. God bless you richly! ✨`;
 
-                window.open(`https://wa.me/256703082106?text=${encodeURIComponent(msg)}`, '_blank');
-                this.showNotification('Order sent to WhatsApp!');
+                const whatsappUrl = `https://wa.me/256703082106?text=${encodeURIComponent(msg)}`;
+                window.open(whatsappUrl, '_blank');
+                
+                this.showNotification('Order sent to WhatsApp! 📱 They will confirm shortly.');
+            }
+
+            filterItems(category, search = '') {
+                let filtered = this.menuItems;
+                
+                if (category !== 'all') {
+                    filtered = filtered.filter(item => item.category === category);
+                }
+                
+                if (search) {
+                    filtered = filtered.filter(item =>
+                        item.name.toLowerCase().includes(search.toLowerCase()) ||
+                        item.category.toLowerCase().includes(search.toLowerCase())
+                    );
+                }
+                
+                this.filteredItems = filtered;
+                this.renderMenu(filtered);
             }
 
             bindEvents() {
+                // Category filters
                 document.addEventListener('click', (e) => {
-                    if (e.target.classList.contains('category-filter')) {
-                        document.querySelectorAll('.category-filter').forEach(btn => btn.classList.remove('bg-red-600', 'text-white'));
-                        e.target.classList.add('bg-red-600', 'text-white');
-                        const category = e.target.dataset.category;
-                        this.filteredItems = category === 'all' ? [...this.menuItems] : this.menuItems.filter(i => i.category === category);
-                        this.renderMenu();
+                    if (e.target.closest('.category-filter')) {
+                        const btn = e.target.closest('.category-filter');
+                        const category = btn.dataset.category;
+                        
+                        document.querySelectorAll('.category-filter').forEach(b => {
+                            b.classList.remove('bg-red-600', 'text-white', 'shadow-red-500/25');
+                            b.classList.add('bg-gray-100', 'dark:bg-gray-700', 'shadow-md');
+                        });
+                        
+                        btn.classList.add('bg-red-600', 'text-white', 'shadow-red-500/25');
+                        btn.classList.remove('bg-gray-100', 'dark:bg-gray-700');
+                        
+                        const search = document.getElementById('menuSearch').value;
+                        this.filterItems(category, search);
                     }
                 });
 
+                // Search
                 document.getElementById('menuSearch').addEventListener('input', (e) => {
-                    const q = e.target.value.toLowerCase();
-                    this.filteredItems = q ? this.menuItems.filter(item =>
-                        item.name.toLowerCase().includes(q) || item.category.toLowerCase().includes(q)
-                    ) : [...this.menuItems];
-                    this.renderMenu();
+                    const search = e.target.value;
+                    const activeCategory = document.querySelector('.category-filter.bg-red-600')?.dataset.category || 'all';
+                    this.filterItems(activeCategory, search);
+                });
+
+                // Cart overlay for mobile
+                document.getElementById('cartOverlay').addEventListener('click', () => {
+                    this.toggleCart();
                 });
             }
 
             toggleCart() {
-                document.getElementById('cartSidebar').classList.toggle('translate-x-full');
+                const sidebar = document.getElementById('cartSidebar');
+                const overlay = document.getElementById('cartOverlay');
+                
+                sidebar.classList.toggle('translate-x-full');
+                overlay.classList.toggle('hidden');
+                
+                if (!sidebar.classList.contains('translate-x-full')) {
+                    document.body.style.overflow = 'hidden';
+                } else {
+                    document.body.style.overflow = '';
+                }
             }
 
             toggleMobileMenu() {
@@ -490,59 +688,76 @@
                 document.documentElement.classList.toggle('dark', this.isDarkMode);
                 localStorage.setItem('darkMode', this.isDarkMode);
                 this.updateThemeIcon();
+                this.showNotification(this.isDarkMode ? 'Dark mode activated 🌙' : 'Light mode activated ☀️');
             }
 
             updateThemeIcon() {
                 const icon = document.getElementById('theme-icon');
                 if (icon) {
-                    if (this.isDarkMode) {
-                        icon.classList.remove('fa-moon');
-                        icon.classList.add('fa-sun');
-                    } else {
-                        icon.classList.remove('fa-sun');
-                        icon.classList.add('fa-moon');
-                    }
+                    icon.className = this.isDarkMode ? 'fas fa-sun text-yellow-400' : 'fas fa-moon text-gray-700';
                 }
             }
 
             scrollToSection(id) {
-                document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+                const element = document.getElementById(id);
+                if (element) {
+                    element.scrollIntoView({ behavior: 'smooth' });
+                    // Close mobile menu if open
+                    document.getElementById('mobileMenu').classList.add('hidden');
+                }
             }
 
             showNotification(message) {
-                alert(message);
-            }
-
-            addSpecialToCart(specialId) {
-                const specials = {
-                    1: {name:"Rolex Combo Deal", price:12000},
-                    2: {name:"Family Pilau Pack", price:38000},
-                    3: {name:"Drink Bundle", price:15000}
-                };
-                const special = specials[specialId];
-                if (special) {
-                    this.cart.push({...special, quantity: 1, img: "https://images.unsplash.com/photo-1567333528663-d086e8410c18?w=600", id: Date.now()});
-                    this.saveCart();
-                    this.updateCartUI();
-                    this.showNotification(`Added ${special.name}`);
+                const toast = document.getElementById('notificationToast');
+                const text = document.getElementById('notificationText');
+                
+                text.textContent = message;
+                toast.classList.remove('hidden');
+                
+                if (this.notificationTimeout) {
+                    clearTimeout(this.notificationTimeout);
                 }
+                
+                this.notificationTimeout = setTimeout(() => {
+                    hideNotification();
+                }, 4000);
             }
         }
 
+        // Global functions
         const app = new FoodApp();
 
-        // Global functions for inline onclick handlers
         window.toggleCart = () => app.toggleCart();
         window.toggleMobileMenu = () => app.toggleMobileMenu();
         window.toggleDarkMode = () => app.toggleDarkMode();
         window.scrollToSection = (id) => app.scrollToSection(id);
         window.addToCart = (id) => app.addToCart(id);
         window.updateQuantity = (id, change) => app.updateQuantity(id, change);
+        window.removeFromCart = (id) => app.removeFromCart(id);
         window.addSpecialToCart = (id) => app.addSpecialToCart(id);
         window.sendToWhatsApp = () => app.sendToWhatsApp();
-        window.downloadApp = () => {
-            alert("📱 God is Able Foods App\n\nThe Progressive Web App is ready!\nClick 'Add to Home Screen' for the best experience.");
+        window.hideNotification = () => {
+            const toast = document.getElementById('notificationToast');
+            toast.classList.add('hidden');
+            if (app.notificationTimeout) {
+                clearTimeout(app.notificationTimeout);
+                app.notificationTimeout = null;
+            }
         };
+
+        // PWA Support
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js').catch(() => {
+                    // Ignore service worker registration failure
+                });
+            });
+        }
+
+        // Prevent body scroll when cart is open
+        document.addEventListener('DOMContentLoaded', () => {
+            document.body.style.transition = 'none';
+        });
     </script>
 </body>
 </html>
