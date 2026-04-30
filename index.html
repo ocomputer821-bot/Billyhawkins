@@ -16,7 +16,9 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
        
-        * { font-family: 'Poppins', sans-serif; }
+        * { 
+            font-family: 'Poppins', sans-serif; 
+        }
        
         .hero-bg {
             background: linear-gradient(135deg, rgba(0,0,0,0.78), rgba(220,38,38,0.4)),
@@ -36,7 +38,24 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-       
+
+        /* Navigation Improvements */
+        .nav-link {
+            transition: all 0.2s ease;
+            color: #374151;
+        }
+        .nav-link:hover {
+            color: #dc2626;
+            transform: translateY(-1px);
+        }
+
+        .dark .nav-link {
+            color: #e5e7eb;
+        }
+        .dark .nav-link:hover {
+            color: #f87171;
+        }
+
         .floating-btn {
             animation: pulse 2s infinite;
         }
@@ -48,6 +67,7 @@
     </style>
 </head>
 <body class="bg-gradient-to-br from-orange-50 to-yellow-50 min-h-screen dark:bg-gray-950">
+
     <!-- LOADING SCREEN -->
     <div id="loadingScreen" class="fixed inset-0 bg-gradient-to-r from-red-600 via-orange-500 to-yellow-400 z-[999] flex items-center justify-center">
         <div class="text-center text-white">
@@ -57,67 +77,71 @@
     </div>
 
     <!-- NAV -->
-    <nav class="bg-white/95 dark:bg-gray-900 backdrop-blur-md shadow-xl sticky top-0 z-[100] border-b border-gray-100 dark:border-gray-800">
+    <nav class="bg-white/95 dark:bg-gray-900/95 backdrop-blur-md shadow-xl sticky top-0 z-[100] border-b border-gray-100 dark:border-gray-800">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center py-4">
+                <!-- Logo -->
                 <div onclick="scrollToSection('hero')" class="flex items-center gap-3 group cursor-pointer">
                     <div class="w-12 h-12 bg-gradient-to-r from-red-500 to-orange-500 rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
                         <span class="text-3xl">🔥</span>
                     </div>
                     <div>
                         <h1 class="text-2xl font-black gradient-text">God is Able</h1>
-                        <p class="text-xs text-gray-600 dark:text-gray-400 font-medium">Foods • Mbuya</p>
+                        <p class="text-xs text-gray-600 dark:text-gray-400 font-medium tracking-wide">Foods • Mbuya</p>
                     </div>
                 </div>
 
+                <!-- Desktop Menu -->
                 <div class="hidden md:flex items-center gap-8 font-medium">
-                    <a href="#hero" onclick="scrollToSection('hero')" class="hover:text-red-600 dark:text-gray-300">Home</a>
-                    <a href="#promotions" onclick="scrollToSection('promotions')" class="hover:text-red-600 dark:text-gray-300">Deals</a>
-                    <a href="#menu" onclick="scrollToSection('menu')" class="hover:text-red-600 dark:text-gray-300">Menu</a>
-                    <a href="#location" onclick="scrollToSection('location')" class="hover:text-red-600 dark:text-gray-300">Location</a>
+                    <a href="#hero" onclick="scrollToSection('hero')" class="nav-link">Home</a>
+                    <a href="#promotions" onclick="scrollToSection('promotions')" class="nav-link">Deals</a>
+                    <a href="#menu" onclick="scrollToSection('menu')" class="nav-link">Menu</a>
+                    <a href="#location" onclick="scrollToSection('location')" class="nav-link">Location</a>
                 </div>
 
+                <!-- Right Side -->
                 <div class="flex items-center gap-4">
-                    <!-- Theme Toggle -->
-                    <button onclick="toggleDarkMode()" class="p-3 rounded-2xl hover:bg-gray-100 dark:hover:bg-gray-800 text-xl transition-all">
-                        <i class="fas fa-moon block dark:hidden"></i>
-                        <i class="fas fa-sun hidden dark:block"></i>
+                    <!-- Dark / Light Mode Toggle -->
+                    <button onclick="toggleDarkMode()" 
+                            class="p-3 rounded-2xl hover:bg-gray-100 dark:hover:bg-gray-800 text-xl transition-all">
+                        <i id="theme-icon" class="fas fa-moon text-gray-700 dark:text-gray-200"></i>
                     </button>
 
                     <!-- Download App -->
-                    <button onclick="downloadApp()" 
-                            class="px-5 py-2.5 text-sm font-medium bg-gradient-to-r from-emerald-600 to-teal-600 text-white rounded-2xl hover:brightness-110 flex items-center gap-2">
+                    <button onclick="downloadApp()"
+                            class="px-5 py-2.5 text-sm font-medium bg-gradient-to-r from-emerald-600 to-teal-600 text-white rounded-2xl hover:brightness-110 flex items-center gap-2 transition-all">
                         <i class="fas fa-download"></i>
                         <span class="hidden sm:inline">Download App</span>
                     </button>
 
-                    <!-- Admin Login -->
-                    <button onclick="showLoginModal()" id="adminBtn"
-                            class="px-4 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 flex items-center gap-1">
-                        <i class="fas fa-user-shield"></i>
-                    </button>
-
                     <!-- Cart -->
-                    <button onclick="toggleCart()" class="group relative bg-gradient-to-r from-red-600 to-orange-500 text-white px-6 py-3 rounded-2xl font-semibold flex items-center gap-2 hover:shadow-xl transition-all">
+                    <button onclick="toggleCart()" 
+                            class="group relative bg-gradient-to-r from-red-600 to-orange-500 text-white px-6 py-3 rounded-2xl font-semibold flex items-center gap-2 hover:shadow-xl transition-all">
                         <i class="fas fa-shopping-cart"></i>
                         <span>Cart</span>
-                        <span id="cart-count" class="absolute -top-2 -right-2 bg-yellow-400 text-black text-xs font-bold w-7 h-7 rounded-full flex items-center justify-center">0</span>
+                        <span id="cart-count" class="absolute -top-2 -right-2 bg-yellow-400 text-black text-xs font-bold w-7 h-7 rounded-full flex items-center justify-center ring-2 ring-white">0</span>
                     </button>
 
-                    <button onclick="toggleMobileMenu()" class="md:hidden p-3 rounded-2xl hover:bg-gray-100 dark:hover:bg-gray-800">
+                    <!-- Mobile Menu Button -->
+                    <button onclick="toggleMobileMenu()" 
+                            class="md:hidden p-3 rounded-2xl hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-200">
                         <i class="fas fa-bars text-2xl"></i>
                     </button>
                 </div>
             </div>
 
             <!-- Mobile Menu -->
-            <div id="mobileMenu" class="hidden md:hidden pb-6 border-t border-gray-100 dark:border-gray-700">
-                <a href="#hero" onclick="scrollToSection('hero'); toggleMobileMenu()" class="block py-3 px-5">Home</a>
-                <a href="#promotions" onclick="scrollToSection('promotions'); toggleMobileMenu()" class="block py-3 px-5">Deals</a>
-                <a href="#menu" onclick="scrollToSection('menu'); toggleMobileMenu()" class="block py-3 px-5">Menu</a>
-                <a href="#location" onclick="scrollToSection('location'); toggleMobileMenu()" class="block py-3 px-5">Location</a>
-                <a onclick="downloadApp(); toggleMobileMenu()" class="block py-3 px-5 text-emerald-600 font-medium">Download App</a>
-                <a onclick="showLoginModal(); toggleMobileMenu()" class="block py-3 px-5 text-red-600 font-medium">Admin Login</a>
+            <div id="mobileMenu" class="hidden md:hidden pb-6 border-t border-gray-100 dark:border-gray-700 pt-4">
+                <a href="#hero" onclick="scrollToSection('hero'); toggleMobileMenu()" 
+                   class="block py-3 px-5 text-gray-700 dark:text-gray-200 font-medium hover:bg-gray-100 dark:hover:bg-gray-800 rounded-xl">Home</a>
+                <a href="#promotions" onclick="scrollToSection('promotions'); toggleMobileMenu()" 
+                   class="block py-3 px-5 text-gray-700 dark:text-gray-200 font-medium hover:bg-gray-100 dark:hover:bg-gray-800 rounded-xl">Deals</a>
+                <a href="#menu" onclick="scrollToSection('menu'); toggleMobileMenu()" 
+                   class="block py-3 px-5 text-gray-700 dark:text-gray-200 font-medium hover:bg-gray-100 dark:hover:bg-gray-800 rounded-xl">Menu</a>
+                <a href="#location" onclick="scrollToSection('location'); toggleMobileMenu()" 
+                   class="block py-3 px-5 text-gray-700 dark:text-gray-200 font-medium hover:bg-gray-100 dark:hover:bg-gray-800 rounded-xl">Location</a>
+                <a onclick="downloadApp(); toggleMobileMenu()" 
+                   class="block py-3 px-5 text-emerald-600 dark:text-emerald-400 font-medium hover:bg-gray-100 dark:hover:bg-gray-800 rounded-xl">Download App</a>
             </div>
         </div>
     </nav>
@@ -164,7 +188,7 @@
                 </button>
             </div>
 
-            <!-- Stats -->
+            <!-- Stats Grid -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
                 <div class="bg-gray-900 rounded-3xl p-6">
                     <div class="flex justify-between">
@@ -228,7 +252,7 @@
                 <div class="bg-gray-900 rounded-3xl p-6 text-center">
                     <h2 class="text-xl font-bold text-white mb-6">Menu Management</h2>
                     <p class="text-gray-400 mb-8">Advanced menu editing tools coming soon.</p>
-                    <button onclick="alert('Full menu editor coming in future update')"
+                    <button onclick="alert('Full menu editor coming in future update')" 
                             class="px-8 py-4 bg-green-600 hover:bg-green-700 text-white rounded-2xl font-medium">
                         + Add New Menu Item
                     </button>
@@ -236,9 +260,6 @@
             </div>
         </div>
     </div>
-
-    <!-- HERO, PROMOTIONS, MENU, LOCATION, CART SIDEBAR, FOOTER remain the same -->
-    <!-- (I kept them unchanged as they were mostly fine) -->
 
     <!-- HERO -->
     <section id="hero" class="hero-bg min-h-screen flex items-center relative text-white overflow-hidden">
@@ -260,6 +281,7 @@
                 <span>View Menu & Order Now</span>
             </a>
         </div>
+        
         <button onclick="scrollToSection('menu')"
                 class="fixed bottom-6 right-6 md:hidden z-[999] bg-gradient-to-r from-red-600 to-orange-500 text-white px-7 py-4 rounded-3xl shadow-2xl flex items-center gap-3 font-bold text-lg floating-btn">
             <i class="fas fa-bolt"></i>
@@ -401,7 +423,7 @@
     <script>
         class FoodApp {
             constructor() {
-                this.menuItems = [ /* ... your menu items unchanged ... */ 
+                this.menuItems = [
                     { id:1, name:"Beef Pilau", category:"Pilau", price:12000, img:"https://images.unsplash.com/photo-1567333528663-d086e8410c18?w=400", popular:true, rating:4.9 },
                     { id:2, name:"Rolex Special", category:"Rolex", price:6000, img:"https://images.unsplash.com/photo-1513104890138-7c749659a591?w=400", popular:true, rating:4.8 },
                     { id:3, name:"Chicken & Chips", category:"Chips", price:13000, img:"https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?w=400", rating:4.7 },
@@ -423,7 +445,6 @@
 
                 this.cart = JSON.parse(localStorage.getItem('godisabled_cart')) || [];
                 this.filteredItems = [...this.menuItems];
-                this.visibleItems = 12;
                 this.isDarkMode = localStorage.getItem('darkMode') === 'true';
 
                 if (this.isDarkMode) document.documentElement.classList.add('dark');
@@ -437,6 +458,7 @@
                 this.updateCartUI();
                 this.bindEvents();
                 this.hideLoading();
+                this.updateThemeIcon();
             }
 
             hideLoading() {
@@ -460,7 +482,7 @@
                 `).join('');
             }
 
-            renderMenu(items = this.filteredItems.slice(0, this.visibleItems)) {
+            renderMenu(items = this.filteredItems.slice(0, 12)) {
                 const container = document.getElementById('menuGrid');
                 container.innerHTML = items.map(item => `
                     <div class="bg-white dark:bg-gray-800 rounded-3xl overflow-hidden card-hover shadow-lg group border border-gray-100 dark:border-gray-700">
@@ -489,7 +511,6 @@
             addToCart(id) {
                 const item = this.menuItems.find(i => i.id === id);
                 if (!item) return;
-
                 const existing = this.cart.find(i => i.id === id);
                 if (existing) existing.quantity += 1;
                 else this.cart.push({ ...item, quantity: 1 });
@@ -519,9 +540,9 @@
                                     <h4 class="font-bold">${item.name}</h4>
                                     <p class="text-red-600 font-semibold">UGX ${itemTotal.toLocaleString()}</p>
                                     <div class="flex items-center gap-3 mt-2">
-                                        <button onclick="updateQuantity(${item.id}, -1)" class="w-8 h-8 border rounded-lg flex items-center justify-center">-</button>
-                                        <span class="font-medium">${item.quantity}</span>
-                                        <button onclick="updateQuantity(${item.id}, 1)" class="w-8 h-8 border rounded-lg flex items-center justify-center">+</button>
+                                        <button onclick="updateQuantity(${item.id}, -1)" class="w-8 h-8 border rounded-lg">-</button>
+                                        <span>${item.quantity}</span>
+                                        <button onclick="updateQuantity(${item.id}, 1)" class="w-8 h-8 border rounded-lg">+</button>
                                     </div>
                                 </div>
                             </div>`;
@@ -546,16 +567,14 @@
 
             sendToWhatsApp() {
                 if (this.cart.length === 0) return this.showNotification('Cart is empty!');
-
+                
                 let msg = "*🍽️ God is Able Foods - New Order*%0A%0A";
                 let total = 0;
-
                 this.cart.forEach(item => {
                     const itemTotal = item.price * item.quantity;
                     msg += `• ${item.quantity}x ${item.name} - UGX ${itemTotal.toLocaleString()}%0A`;
                     total += itemTotal;
                 });
-
                 msg += `%0A*Total: UGX ${total.toLocaleString()}*%0A%0A`;
                 msg += `📍 Mbuya Road, Kampala%0A`;
                 msg += `⏱️ Expected: 30-45 minutes%0A`;
@@ -566,73 +585,65 @@
             }
 
             bindEvents() {
-                // Category filters
                 document.addEventListener('click', (e) => {
                     if (e.target.classList.contains('category-filter')) {
-                        document.querySelectorAll('.category-filter').forEach(btn => {
-                            btn.classList.remove('bg-red-600', 'text-white');
-                        });
+                        document.querySelectorAll('.category-filter').forEach(btn => btn.classList.remove('bg-red-600', 'text-white'));
                         e.target.classList.add('bg-red-600', 'text-white');
-
                         const category = e.target.dataset.category;
-                        this.filteredItems = category === 'all' 
-                            ? [...this.menuItems] 
-                            : this.menuItems.filter(i => i.category === category);
-
+                        this.filteredItems = category === 'all' ? [...this.menuItems] : this.menuItems.filter(i => i.category === category);
                         this.renderMenu();
                     }
                 });
 
-                // Search
                 document.getElementById('menuSearch').addEventListener('input', (e) => {
                     const q = e.target.value.toLowerCase();
-                    this.filteredItems = q 
-                        ? this.menuItems.filter(item => 
-                            item.name.toLowerCase().includes(q) || 
-                            item.category.toLowerCase().includes(q)
-                          ) 
-                        : [...this.menuItems];
+                    this.filteredItems = q ? this.menuItems.filter(item =>
+                        item.name.toLowerCase().includes(q) || item.category.toLowerCase().includes(q)
+                    ) : [...this.menuItems];
                     this.renderMenu();
                 });
             }
 
-            toggleCart() {
-                document.getElementById('cartSidebar').classList.toggle('translate-x-full');
+            toggleCart() { 
+                document.getElementById('cartSidebar').classList.toggle('translate-x-full'); 
             }
 
-            toggleMobileMenu() {
-                document.getElementById('mobileMenu').classList.toggle('hidden');
+            toggleMobileMenu() { 
+                document.getElementById('mobileMenu').classList.toggle('hidden'); 
             }
 
             toggleDarkMode() {
                 this.isDarkMode = !this.isDarkMode;
                 document.documentElement.classList.toggle('dark', this.isDarkMode);
                 localStorage.setItem('darkMode', this.isDarkMode);
+                this.updateThemeIcon();
             }
 
-            scrollToSection(id) {
-                document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+            updateThemeIcon() {
+                const icon = document.getElementById('theme-icon');
+                if (icon) {
+                    icon.classList.toggle('fa-moon', !this.isDarkMode);
+                    icon.classList.toggle('fa-sun', this.isDarkMode);
+                }
             }
 
-            showNotification(message) {
-                alert(message); // You can replace with a better toast later
+            scrollToSection(id) { 
+                document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' }); 
+            }
+
+            showNotification(message) { 
+                alert(message); 
             }
 
             addSpecialToCart(specialId) {
                 const specials = {
-                    1: {name: "Rolex Combo Deal", price: 12000},
-                    2: {name: "Family Pilau Pack", price: 38000},
-                    3: {name: "Drink Bundle", price: 15000}
+                    1: {name:"Rolex Combo Deal", price:12000},
+                    2: {name:"Family Pilau Pack", price:38000},
+                    3: {name:"Drink Bundle", price:15000}
                 };
-
                 const special = specials[specialId];
                 if (special) {
-                    this.cart.push({
-                        ...special,
-                        quantity: 1,
-                        img: "https://images.unsplash.com/photo-1567333528663-d086e8410c18?w=400",
-                        id: Date.now() // temporary unique id
-                    });
+                    this.cart.push({...special, quantity: 1, img: "https://images.unsplash.com/photo-1567333528663-d086e8410c18?w=400", id: Date.now()});
                     this.saveCart();
                     this.updateCartUI();
                     this.showNotification(`Added ${special.name}`);
@@ -640,36 +651,33 @@
             }
         }
 
-        // Initialize App
         const app = new FoodApp();
 
-        // Global functions for inline onclick handlers
-        window.addToCart = (id) => app.addToCart(id);
-        window.updateQuantity = (id, change) => app.updateQuantity(id, change);
+        // Global window functions
         window.toggleCart = () => app.toggleCart();
         window.toggleMobileMenu = () => app.toggleMobileMenu();
         window.toggleDarkMode = () => app.toggleDarkMode();
         window.scrollToSection = (id) => app.scrollToSection(id);
+        window.addToCart = (id) => app.addToCart(id);
+        window.updateQuantity = (id, change) => app.updateQuantity(id, change);
         window.addSpecialToCart = (id) => app.addSpecialToCart(id);
         window.sendToWhatsApp = () => app.sendToWhatsApp();
+        window.downloadApp = () => {
+            alert("📱 God is Able Foods App\n\nThe Progressive Web App (PWA) is ready.\nClick 'Add to Home Screen' for best experience.");
+        };
 
-        // Admin functions
-        window.showLoginModal = () => {
-            document.getElementById('loginModal').classList.remove('hidden');
-        };
-        window.hideLoginModal = () => {
-            document.getElementById('loginModal').classList.add('hidden');
-        };
+        // Admin Functions (kept for future use)
+        window.showLoginModal = () => document.getElementById('loginModal').classList.remove('hidden');
+        window.hideLoginModal = () => document.getElementById('loginModal').classList.add('hidden');
         window.handleLogin = () => {
             const username = document.getElementById('username').value.trim();
             const password = document.getElementById('password').value.trim();
-
             if (username === "admin" && password === "admin123") {
                 hideLoginModal();
                 document.getElementById('adminDashboard').classList.remove('hidden');
                 loadAdminDashboard();
             } else {
-                alert("Invalid credentials!\n\nDemo Login:\nUsername: admin\nPassword: admin123");
+                alert("Invalid credentials!\n\nDemo: admin / admin123");
             }
         };
         window.logout = () => {
@@ -680,7 +688,6 @@
         window.switchTab = (tab) => {
             document.querySelectorAll('.tab-content').forEach(c => c.classList.add('hidden'));
             document.getElementById(`tab-content-${tab}`).classList.remove('hidden');
-            
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('border-red-500', 'text-white'));
             document.getElementById(`tab-${tab}`).classList.add('border-red-500', 'text-white');
         };
@@ -690,35 +697,8 @@
             document.getElementById('stat-revenue').textContent = "UGX 452,000";
             document.getElementById('stat-pending').textContent = "8";
             document.getElementById('stat-avg').textContent = "UGX 18,800";
-
-            document.getElementById('recentActivity').innerHTML = `
-                <div class="flex items-center gap-4 bg-gray-800 p-5 rounded-2xl">
-                    <i class="fas fa-check-circle text-green-500 text-3xl"></i>
-                    <div class="flex-1">
-                        <p class="font-medium">Order #ORD-7842 completed</p>
-                        <p class="text-sm text-gray-400">Mbuya • 12 minutes ago</p>
-                    </div>
-                </div>
-            `;
-
-            document.getElementById('recentOrders').innerHTML = `
-                <div class="bg-gray-800 p-5 rounded-2xl flex justify-between items-center">
-                    <div>
-                        <p class="font-medium">Rolex Combo x2 + Juice</p>
-                        <p class="text-sm text-gray-400">Bugolobi • Just now</p>
-                    </div>
-                    <div class="text-right">
-                        <p class="font-bold text-green-400">UGX 28,000</p>
-                        <span class="text-xs px-4 py-1 bg-yellow-500 text-black rounded-full">Pending</span>
-                    </div>
-                </div>
-            `;
             switchTab(0);
         }
-
-        window.downloadApp = () => {
-            alert("📱 God is Able Foods App\n\nThe Progressive Web App (PWA) is ready to install.\n\nClick 'Install' or 'Add to Home Screen' on your browser.");
-        };
     </script>
 </body>
 </html>
