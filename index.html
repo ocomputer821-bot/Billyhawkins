@@ -4,12 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>God is Able Foods | Mbuya, Kampala - Best Rolex & Pilau</title>
-    <meta name="description" content="Best Rolex, Pilau, Chips & Local Dishes in Mbuya, Kampala. Fast 30-45 min delivery to Mbuya, Bugolobi, Nakawa & Kireka. Order via WhatsApp now!">
+    <meta name="description" content="Best Rolex, Pilau, Chips & Local Dishes in Mbuya, Kampala. Fast 30-45 min delivery to Mbuya, Bugolobi, Nakawa & Kireka.">
     
-    <meta property="og:title" content="God is Able Foods - Fresh Food in Mbuya">
-    <meta property="og:description" content="Delicious Rolex, Pilau, Chips and more. Fast delivery in Kampala.">
-    <meta property="og:image" content="https://images.unsplash.com/photo-1555939594-58d7cb561ad1">
-
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     
@@ -46,18 +42,9 @@
             50% { transform: scale(1.08); }
         }
         
-        /* Dark mode */
         .dark .hero-bg { filter: brightness(0.85); }
         .dark .bg-white { background-color: #1f2937 !important; }
         .dark .text-gray-700, .dark .text-gray-600 { color: #e5e7eb; }
-        
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .animate-fade-in-up {
-            animation: fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-        }
     </style>
 </head>
 <body class="bg-gradient-to-br from-orange-50 to-yellow-50 min-h-screen dark:bg-gray-950">
@@ -67,7 +54,6 @@
         <div class="text-center text-white">
             <div class="w-24 h-24 border-4 border-white/30 border-t-white rounded-full animate-spin mx-auto mb-6"></div>
             <p class="text-2xl font-bold">God is Able Foods</p>
-            <p class="text-sm mt-2 opacity-90">Preparing something delicious...</p>
         </div>
     </div>
 
@@ -81,26 +67,26 @@
                     </div>
                     <div>
                         <h1 class="text-2xl font-black gradient-text">God is Able</h1>
-                        <p class="text-xs text-gray-600 dark:text-gray-400 font-medium">Foods • Mbuya</p>
+                        <p class="text-xs text-gray-600 dark:text-gray-400">Foods • Mbuya</p>
                     </div>
                 </div>
 
                 <div class="hidden md:flex items-center gap-8 font-medium">
-                    <a href="#hero" onclick="scrollToSection('hero')" class="hover:text-red-600 dark:text-gray-300 transition-colors">Home</a>
-                    <a href="#promotions" onclick="scrollToSection('promotions')" class="hover:text-red-600 dark:text-gray-300 transition-colors">Deals</a>
-                    <a href="#menu" onclick="scrollToSection('menu')" class="hover:text-red-600 dark:text-gray-300 transition-colors">Menu</a>
-                    <a href="#location" onclick="scrollToSection('location')" class="hover:text-red-600 dark:text-gray-300 transition-colors">Location</a>
+                    <a href="#hero" onclick="scrollToSection('hero')" class="hover:text-red-600 dark:text-gray-300">Home</a>
+                    <a href="#promotions" onclick="scrollToSection('promotions')" class="hover:text-red-600 dark:text-gray-300">Deals</a>
+                    <a href="#menu" onclick="scrollToSection('menu')" class="hover:text-red-600 dark:text-gray-300">Menu</a>
+                    <a href="#location" onclick="scrollToSection('location')" class="hover:text-red-600 dark:text-gray-300">Location</a>
                 </div>
 
                 <div class="flex items-center gap-4">
-                    <button onclick="toggleDarkMode()" class="p-3 rounded-2xl hover:bg-gray-100 dark:hover:bg-gray-800 transition-all text-xl">
+                    <button onclick="toggleDarkMode()" class="p-3 rounded-2xl hover:bg-gray-100 dark:hover:bg-gray-800 text-xl">
                         <i class="fas fa-moon block dark:hidden"></i>
                         <i class="fas fa-sun hidden dark:block"></i>
                     </button>
 
                     <button onclick="showLoginModal()" class="px-5 py-2 text-sm font-medium border border-gray-300 dark:border-gray-600 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 flex items-center gap-2">
-                        <i class="fas fa-user"></i>
-                        <span id="loginBtnText">Admin Login</span>
+                        <i class="fas fa-user-shield"></i>
+                        <span id="loginBtnText">Admin</span>
                     </button>
 
                     <button onclick="toggleCart()" class="group relative bg-gradient-to-r from-red-600 to-orange-500 text-white px-6 py-3 rounded-2xl font-semibold flex items-center gap-2 hover:shadow-xl transition-all">
@@ -128,70 +114,116 @@
 
     <!-- LOGIN MODAL -->
     <div id="loginModal" class="hidden fixed inset-0 bg-black/70 backdrop-blur-sm z-[2000] flex items-center justify-center">
-        <div class="bg-white dark:bg-gray-800 rounded-3xl p-8 w-full max-w-md mx-4 shadow-2xl">
+        <div class="bg-white dark:bg-gray-800 rounded-3xl p-8 w-full max-w-md mx-4">
             <div class="flex justify-between items-center mb-6">
                 <h2 class="text-2xl font-bold gradient-text">Admin Login</h2>
-                <button onclick="hideLoginModal()" class="text-3xl text-gray-400 hover:text-red-600">&times;</button>
+                <button onclick="hideLoginModal()" class="text-3xl hover:text-red-600">&times;</button>
             </div>
             <div class="space-y-5">
                 <div>
                     <label class="block text-sm font-medium mb-1">Username</label>
-                    <input id="username" type="text" value="admin" 
+                    <input id="username" type="text" placeholder="Enter username" 
                            class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-2xl focus:outline-none focus:border-red-500">
                 </div>
                 <div>
                     <label class="block text-sm font-medium mb-1">Password</label>
-                    <input id="password" type="password" value="admin123" 
+                    <input id="password" type="password" placeholder="Enter password" 
                            class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-2xl focus:outline-none focus:border-red-500">
                 </div>
                 <button onclick="handleLogin()" 
-                        class="w-full bg-gradient-to-r from-red-600 to-orange-500 text-white py-4 rounded-2xl font-bold text-lg hover:brightness-110 transition-all">
+                        class="w-full bg-gradient-to-r from-red-600 to-orange-500 text-white py-4 rounded-2xl font-bold text-lg hover:brightness-110">
                     Login
                 </button>
             </div>
-            <p class="text-center text-xs text-gray-500 mt-6">Demo Credentials:<br><strong>admin</strong> / <strong>admin123</strong></p>
+            <p class="text-center text-xs text-gray-500 mt-6">
+                Demo: <strong>admin</strong> / <strong>admin123</strong>
+            </p>
         </div>
     </div>
 
     <!-- ADMIN DASHBOARD -->
     <div id="adminDashboard" class="hidden fixed inset-0 bg-gray-950 z-[3000] overflow-auto">
         <div class="max-w-7xl mx-auto p-6">
-            <div class="flex justify-between items-center mb-8 border-b border-gray-800 pb-6">
-                <h1 class="text-4xl font-black text-white">Admin Dashboard</h1>
-                <button onclick="logout()" 
-                        class="px-6 py-3 bg-red-600 hover:bg-red-700 text-white rounded-2xl font-medium flex items-center gap-2">
+            <div class="flex justify-between items-center mb-10">
+                <div>
+                    <h1 class="text-4xl font-black text-white">Admin Dashboard</h1>
+                    <p class="text-gray-400">God is Able Foods • Mbuya Branch</p>
+                </div>
+                <button onclick="logout()" class="px-6 py-3 bg-red-600 hover:bg-red-700 text-white rounded-2xl font-medium flex items-center gap-2">
                     <i class="fas fa-sign-out-alt"></i> Logout
                 </button>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
-                <div class="bg-gray-900 p-6 rounded-3xl">
-                    <h3 class="text-gray-400">Today's Orders</h3>
-                    <p id="totalOrders" class="text-5xl font-black text-white mt-2">18</p>
+            <!-- Stats -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+                <div class="bg-gray-900 rounded-3xl p-6">
+                    <div class="flex justify-between">
+                        <div>
+                            <p class="text-gray-400 text-sm">Today's Orders</p>
+                            <p id="stat-orders" class="text-4xl font-black text-white mt-2">24</p>
+                        </div>
+                        <i class="fas fa-utensils text-4xl text-orange-500"></i>
+                    </div>
                 </div>
-                <div class="bg-gray-900 p-6 rounded-3xl">
-                    <h3 class="text-gray-400">Revenue Today</h3>
-                    <p id="totalRevenue" class="text-5xl font-black text-green-400 mt-2">UGX 387,000</p>
+                <div class="bg-gray-900 rounded-3xl p-6">
+                    <div class="flex justify-between">
+                        <div>
+                            <p class="text-gray-400 text-sm">Revenue Today</p>
+                            <p id="stat-revenue" class="text-4xl font-black text-green-400 mt-2">UGX 452,000</p>
+                        </div>
+                        <i class="fas fa-money-bill-wave text-4xl text-green-500"></i>
+                    </div>
                 </div>
-                <div class="bg-gray-900 p-6 rounded-3xl">
-                    <h3 class="text-gray-400">Pending Deliveries</h3>
-                    <p id="pendingOrders" class="text-5xl font-black text-orange-400 mt-2">7</p>
+                <div class="bg-gray-900 rounded-3xl p-6">
+                    <div class="flex justify-between">
+                        <div>
+                            <p class="text-gray-400 text-sm">Pending Orders</p>
+                            <p id="stat-pending" class="text-4xl font-black text-yellow-400 mt-2">8</p>
+                        </div>
+                        <i class="fas fa-clock text-4xl text-yellow-500"></i>
+                    </div>
+                </div>
+                <div class="bg-gray-900 rounded-3xl p-6">
+                    <div class="flex justify-between">
+                        <div>
+                            <p class="text-gray-400 text-sm">Avg Order Value</p>
+                            <p id="stat-avg" class="text-4xl font-black text-blue-400 mt-2">UGX 18,800</p>
+                        </div>
+                        <i class="fas fa-chart-line text-4xl text-blue-500"></i>
+                    </div>
                 </div>
             </div>
 
-            <div class="bg-gray-900 rounded-3xl p-6 mb-8">
-                <h2 class="text-xl font-bold text-white mb-6">Recent Orders</h2>
-                <div id="recentOrders" class="space-y-4">
-                    <!-- Populated by JS -->
+            <!-- Tabs -->
+            <div class="flex border-b border-gray-700 mb-8">
+                <button onclick="switchTab(0)" id="tab-0" class="tab-btn px-8 py-4 border-b-2 border-red-500 text-white font-medium">Overview</button>
+                <button onclick="switchTab(1)" id="tab-1" class="tab-btn px-8 py-4 text-gray-400 hover:text-white">Recent Orders</button>
+                <button onclick="switchTab(2)" id="tab-2" class="tab-btn px-8 py-4 text-gray-400 hover:text-white">Menu</button>
+            </div>
+
+            <!-- Tab Contents -->
+            <div id="tab-content-0" class="tab-content">
+                <div class="bg-gray-900 rounded-3xl p-6">
+                    <h2 class="text-xl font-bold text-white mb-6">Recent Activity</h2>
+                    <div id="recentActivity" class="space-y-4"></div>
                 </div>
             </div>
 
-            <div class="bg-gray-900 rounded-3xl p-6">
-                <h2 class="text-xl font-bold text-white mb-6">Quick Actions</h2>
-                <button onclick="alert('Menu management coming soon!')" 
-                        class="px-8 py-4 bg-green-600 hover:bg-green-700 text-white rounded-2xl font-medium">
-                    Manage Menu Items
-                </button>
+            <div id="tab-content-1" class="tab-content hidden">
+                <div class="bg-gray-900 rounded-3xl p-6">
+                    <h2 class="text-xl font-bold text-white mb-6">Recent Orders</h2>
+                    <div id="recentOrders" class="space-y-4"></div>
+                </div>
+            </div>
+
+            <div id="tab-content-2" class="tab-content hidden">
+                <div class="bg-gray-900 rounded-3xl p-6">
+                    <h2 class="text-xl font-bold text-white mb-6">Menu Management</h2>
+                    <button onclick="alert('Full menu editor coming in next version')" 
+                            class="px-8 py-4 bg-green-600 hover:bg-green-700 text-white rounded-2xl font-medium">
+                        + Add New Menu Item
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -217,7 +249,6 @@
             </a>
         </div>
 
-        <!-- Floating Order Button -->
         <button onclick="scrollToSection('menu')" 
                 class="fixed bottom-6 right-6 md:hidden z-[999] bg-gradient-to-r from-red-600 to-orange-500 text-white px-7 py-4 rounded-3xl shadow-2xl flex items-center gap-3 font-bold text-lg floating-btn">
             <i class="fas fa-bolt"></i>
@@ -445,7 +476,7 @@
                 else this.cart.push({ ...item, quantity: 1 });
                 this.saveCart();
                 this.updateCartUI();
-                this.showNotification(`Added ${item.name} to cart!`, 'success');
+                this.showNotification(`Added ${item.name} to cart!`);
             }
 
             updateCartUI() {
@@ -494,7 +525,7 @@
             }
 
             sendToWhatsApp() {
-                if (this.cart.length === 0) return this.showNotification('Cart is empty!', 'error');
+                if (this.cart.length === 0) return this.showNotification('Cart is empty!');
                 let msg = "*🍽️ God is Able Foods - New Order*%0A%0A";
                 let total = 0;
                 this.cart.forEach(item => {
@@ -505,10 +536,9 @@
                 msg += `%0A*Total: UGX ${total.toLocaleString()}*%0A%0A`;
                 msg += `📍 Mbuya Road, Kampala%0A`;
                 msg += `⏱️ Expected: 30-45 minutes%0A`;
-                msg += `📝 Special Instructions:%0A%0A`;
                 msg += `Please confirm 🙏 God bless you!`;
                 window.open(`https://wa.me/256703082106?text=${encodeURIComponent(msg)}`, '_blank');
-                this.showNotification('Order sent to WhatsApp!', 'success');
+                this.showNotification('Order sent to WhatsApp!');
             }
 
             bindEvents() {
@@ -533,50 +563,34 @@
                 });
             }
 
-            toggleCart() {
-                document.getElementById('cartSidebar').classList.toggle('translate-x-full');
-            }
-
-            toggleMobileMenu() {
-                document.getElementById('mobileMenu').classList.toggle('hidden');
-            }
-
+            toggleCart() { document.getElementById('cartSidebar').classList.toggle('translate-x-full'); }
+            toggleMobileMenu() { document.getElementById('mobileMenu').classList.toggle('hidden'); }
             toggleDarkMode() {
-                document.documentElement.classList.toggle('dark');
-                localStorage.setItem('darkMode', document.documentElement.classList.contains('dark'));
+                this.isDarkMode = !this.isDarkMode;
+                document.documentElement.classList.toggle('dark', this.isDarkMode);
+                localStorage.setItem('darkMode', this.isDarkMode);
             }
-
-            scrollToSection(id) {
-                document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
-            }
-
-            showNotification(message, type = 'success') {
-                alert(message);
-            }
-
+            scrollToSection(id) { document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' }); }
+            showNotification(message) { alert(message); }
             addSpecialToCart(specialId) {
-                const specials = {
-                    1: { id: 99, name: "Rolex Combo Deal", price: 12000 },
-                    2: { id: 100, name: "Family Pilau Pack", price: 38000 },
-                    3: { id: 101, name: "Drink Bundle", price: 15000 }
-                };
+                const specials = {1: {name:"Rolex Combo Deal", price:12000}, 2: {name:"Family Pilau Pack", price:38000}, 3: {name:"Drink Bundle", price:15000}};
                 const special = specials[specialId];
                 if (special) {
-                    this.cart.push({ ...special, quantity: 1, img: "https://images.unsplash.com/photo-1567333528663-d086e8410c18?w=400" });
+                    this.cart.push({...special, quantity: 1, img: "https://images.unsplash.com/photo-1567333528663-d086e8410c18?w=400"});
                     this.saveCart();
                     this.updateCartUI();
-                    this.showNotification(`Added ${special.name} to cart!`, 'success');
+                    this.showNotification(`Added ${special.name}`);
                 }
             }
         }
 
         const app = new FoodApp();
 
-        // ====================== ADMIN LOGIN ======================
-        let isLoggedIn = false;
-
+        // ====================== ADMIN ======================
         function showLoginModal() {
             document.getElementById('loginModal').classList.remove('hidden');
+            document.getElementById('username').value = '';
+            document.getElementById('password').value = '';
         }
 
         function hideLoginModal() {
@@ -587,52 +601,65 @@
             const username = document.getElementById('username').value.trim();
             const password = document.getElementById('password').value.trim();
 
-            if ((username === "admin" && password === "admin123") || 
-                (username === "owner" && password === "godisable")) {
-                isLoggedIn = true;
+            if (username === "admin" && password === "admin123") {
                 hideLoginModal();
                 document.getElementById('loginBtnText').innerHTML = `<i class="fas fa-user-shield"></i> Admin`;
                 document.getElementById('adminDashboard').classList.remove('hidden');
                 loadAdminDashboard();
             } else {
-                alert("Invalid credentials!\n\nDemo: admin / admin123");
+                alert("Invalid credentials!\n\nDemo Login:\nUsername: admin\nPassword: admin123");
             }
         }
 
         function logout() {
             if (confirm("Logout from Admin Dashboard?")) {
-                isLoggedIn = false;
                 document.getElementById('adminDashboard').classList.add('hidden');
-                document.getElementById('loginBtnText').innerHTML = `<i class="fas fa-user"></i> Admin Login`;
+                document.getElementById('loginBtnText').innerHTML = `<i class="fas fa-user-shield"></i> Admin`;
             }
         }
 
+        function switchTab(tab) {
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.add('hidden'));
+            document.getElementById(`tab-content-${tab}`).classList.remove('hidden');
+
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('border-red-500', 'text-white'));
+            document.getElementById(`tab-${tab}`).classList.add('border-red-500', 'text-white');
+        }
+
         function loadAdminDashboard() {
+            document.getElementById('stat-orders').textContent = "24";
+            document.getElementById('stat-revenue').textContent = "UGX 452,000";
+            document.getElementById('stat-pending').textContent = "8";
+            document.getElementById('stat-avg').textContent = "UGX 18,800";
+
+            document.getElementById('recentActivity').innerHTML = `
+                <div class="flex items-center gap-4 bg-gray-800 p-5 rounded-2xl">
+                    <i class="fas fa-check-circle text-green-500 text-3xl"></i>
+                    <div class="flex-1">
+                        <p class="font-medium">Order #ORD-7842 completed</p>
+                        <p class="text-sm text-gray-400">Mbuya • 12 minutes ago</p>
+                    </div>
+                    <p class="font-bold text-green-400">UGX 32,000</p>
+                </div>
+            `;
+
             document.getElementById('recentOrders').innerHTML = `
                 <div class="bg-gray-800 p-5 rounded-2xl flex justify-between items-center">
                     <div>
-                        <p class="font-medium">2x Rolex Special + Chips</p>
-                        <p class="text-sm text-gray-400">Mbuya • 8 minutes ago</p>
+                        <p class="font-medium">Rolex Combo x2 + Juice</p>
+                        <p class="text-sm text-gray-400">Bugolobi • Just now</p>
                     </div>
                     <div class="text-right">
-                        <p class="font-bold text-green-400">UGX 25,000</p>
-                        <span class="text-xs px-3 py-1 bg-orange-500 text-white rounded-full">Pending</span>
-                    </div>
-                </div>
-                <div class="bg-gray-800 p-5 rounded-2xl flex justify-between items-center">
-                    <div>
-                        <p class="font-medium">Family Pilau Pack</p>
-                        <p class="text-sm text-gray-400">Bugolobi • 35 minutes ago</p>
-                    </div>
-                    <div class="text-right">
-                        <p class="font-bold text-green-400">UGX 38,000</p>
-                        <span class="text-xs px-3 py-1 bg-emerald-500 text-white rounded-full">Delivered</span>
+                        <p class="font-bold text-green-400">UGX 28,000</p>
+                        <span class="text-xs px-4 py-1 bg-yellow-500 text-black rounded-full">Pending</span>
                     </div>
                 </div>
             `;
+
+            switchTab(0);
         }
 
-        // Global window functions
+        // Global functions
         window.toggleCart = () => app.toggleCart();
         window.toggleMobileMenu = () => app.toggleMobileMenu();
         window.toggleDarkMode = () => app.toggleDarkMode();
@@ -642,14 +669,7 @@
         window.hideLoginModal = hideLoginModal;
         window.handleLogin = handleLogin;
         window.logout = logout;
-
-        // Close login modal with Escape key
-        document.addEventListener('keydown', (e) => {
-            if (e.key === "Escape") {
-                const modal = document.getElementById('loginModal');
-                if (!modal.classList.contains('hidden')) hideLoginModal();
-            }
-        });
+        window.switchTab = switchTab;
     </script>
 </body>
 </html>
