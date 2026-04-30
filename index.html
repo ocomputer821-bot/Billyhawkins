@@ -4,8 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>God is Able Foods | Mbuya, Kampala - Best Rolex & Pilau</title>
-    <meta name="description" content="Best Rolex, Pilau, Chips & Local Dishes in Mbuya, Kampala. Fast 30-45 min delivery to Mbuya, Bugolobi, Nakawa & Kireka.">
+    <meta name="description" content="Best Rolex, Pilau, Chips & Local Dishes in Mbuya, Kampala. Fast 30-45 min delivery to Mbuya, Bugolobi, Nakawa & Kireka. Order via WhatsApp now!">
     
+    <meta property="og:title" content="God is Able Foods - Fresh Food in Mbuya">
+    <meta property="og:description" content="Delicious Rolex, Pilau, Chips and more. Fast delivery in Kampala.">
+    <meta property="og:image" content="https://images.unsplash.com/photo-1555939594-58d7cb561ad1">
+
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     
@@ -67,7 +71,7 @@
                     </div>
                     <div>
                         <h1 class="text-2xl font-black gradient-text">God is Able</h1>
-                        <p class="text-xs text-gray-600 dark:text-gray-400">Foods • Mbuya</p>
+                        <p class="text-xs text-gray-600 dark:text-gray-400 font-medium">Foods • Mbuya</p>
                     </div>
                 </div>
 
@@ -79,14 +83,23 @@
                 </div>
 
                 <div class="flex items-center gap-4">
-                    <button onclick="toggleDarkMode()" class="p-3 rounded-2xl hover:bg-gray-100 dark:hover:bg-gray-800 text-xl">
+                    <!-- Theme Toggle -->
+                    <button onclick="toggleDarkMode()" class="p-3 rounded-2xl hover:bg-gray-100 dark:hover:bg-gray-800 text-xl transition-all">
                         <i class="fas fa-moon block dark:hidden"></i>
                         <i class="fas fa-sun hidden dark:block"></i>
                     </button>
 
-                    <button onclick="showLoginModal()" class="px-5 py-2 text-sm font-medium border border-gray-300 dark:border-gray-600 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 flex items-center gap-2">
+                    <!-- Download App Button -->
+                    <button onclick="downloadApp()" 
+                            class="px-5 py-2.5 text-sm font-medium bg-gradient-to-r from-emerald-600 to-teal-600 text-white rounded-2xl hover:brightness-110 flex items-center gap-2">
+                        <i class="fas fa-download"></i>
+                        <span class="hidden sm:inline">Download App</span>
+                    </button>
+
+                    <!-- Admin Login -->
+                    <button onclick="showLoginModal()" 
+                            class="px-4 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 flex items-center gap-1">
                         <i class="fas fa-user-shield"></i>
-                        <span id="loginBtnText">Admin</span>
                     </button>
 
                     <button onclick="toggleCart()" class="group relative bg-gradient-to-r from-red-600 to-orange-500 text-white px-6 py-3 rounded-2xl font-semibold flex items-center gap-2 hover:shadow-xl transition-all">
@@ -107,6 +120,7 @@
                 <a href="#promotions" onclick="scrollToSection('promotions'); toggleMobileMenu()" class="block py-3 px-5">Deals</a>
                 <a href="#menu" onclick="scrollToSection('menu'); toggleMobileMenu()" class="block py-3 px-5">Menu</a>
                 <a href="#location" onclick="scrollToSection('location'); toggleMobileMenu()" class="block py-3 px-5">Location</a>
+                <a onclick="downloadApp(); toggleMobileMenu()" class="block py-3 px-5 text-emerald-600 font-medium">Download App</a>
                 <a onclick="showLoginModal(); toggleMobileMenu()" class="block py-3 px-5 text-red-600 font-medium">Admin Login</a>
             </div>
         </div>
@@ -147,7 +161,7 @@
             <div class="flex justify-between items-center mb-10">
                 <div>
                     <h1 class="text-4xl font-black text-white">Admin Dashboard</h1>
-                    <p class="text-gray-400">God is Able Foods • Mbuya Branch</p>
+                    <p class="text-gray-400">God is Able Foods • Mbuya</p>
                 </div>
                 <button onclick="logout()" class="px-6 py-3 bg-red-600 hover:bg-red-700 text-white rounded-2xl font-medium flex items-center gap-2">
                     <i class="fas fa-sign-out-alt"></i> Logout
@@ -217,9 +231,10 @@
             </div>
 
             <div id="tab-content-2" class="tab-content hidden">
-                <div class="bg-gray-900 rounded-3xl p-6">
+                <div class="bg-gray-900 rounded-3xl p-6 text-center">
                     <h2 class="text-xl font-bold text-white mb-6">Menu Management</h2>
-                    <button onclick="alert('Full menu editor coming in next version')" 
+                    <p class="text-gray-400 mb-8">Advanced menu editing tools coming soon.</p>
+                    <button onclick="alert('Full menu editor coming in future update')" 
                             class="px-8 py-4 bg-green-600 hover:bg-green-700 text-white rounded-2xl font-medium">
                         + Add New Menu Item
                     </button>
@@ -228,7 +243,7 @@
         </div>
     </div>
 
-    <!-- HERO SECTION -->
+    <!-- HERO -->
     <section id="hero" class="hero-bg min-h-screen flex items-center relative text-white overflow-hidden">
         <div class="max-w-6xl mx-auto px-6 text-center relative z-10">
             <div class="inline-flex items-center gap-2 bg-yellow-400/90 backdrop-blur-sm px-5 py-2 rounded-full mb-6 font-semibold text-yellow-900">
@@ -586,7 +601,13 @@
 
         const app = new FoodApp();
 
-        // ====================== ADMIN ======================
+        // ====================== DOWNLOAD APP ======================
+        function downloadApp() {
+            alert("📱 God is Able Foods App\n\nThe Progressive Web App (PWA) is ready to install.\n\nClick 'Install' or 'Add to Home Screen' on your browser for the best experience.");
+            // You can enhance this with actual beforeinstallprompt event in production
+        }
+
+        // ====================== ADMIN LOGIN ======================
         function showLoginModal() {
             document.getElementById('loginModal').classList.remove('hidden');
             document.getElementById('username').value = '';
@@ -603,7 +624,7 @@
 
             if (username === "admin" && password === "admin123") {
                 hideLoginModal();
-                document.getElementById('loginBtnText').innerHTML = `<i class="fas fa-user-shield"></i> Admin`;
+                document.getElementById('loginBtnText').innerHTML = `<i class="fas fa-user-shield"></i>`;
                 document.getElementById('adminDashboard').classList.remove('hidden');
                 loadAdminDashboard();
             } else {
@@ -614,14 +635,13 @@
         function logout() {
             if (confirm("Logout from Admin Dashboard?")) {
                 document.getElementById('adminDashboard').classList.add('hidden');
-                document.getElementById('loginBtnText').innerHTML = `<i class="fas fa-user-shield"></i> Admin`;
+                document.getElementById('loginBtnText').innerHTML = `<i class="fas fa-user-shield"></i>`;
             }
         }
 
         function switchTab(tab) {
             document.querySelectorAll('.tab-content').forEach(c => c.classList.add('hidden'));
             document.getElementById(`tab-content-${tab}`).classList.remove('hidden');
-
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('border-red-500', 'text-white'));
             document.getElementById(`tab-${tab}`).classList.add('border-red-500', 'text-white');
         }
@@ -639,7 +659,6 @@
                         <p class="font-medium">Order #ORD-7842 completed</p>
                         <p class="text-sm text-gray-400">Mbuya • 12 minutes ago</p>
                     </div>
-                    <p class="font-bold text-green-400">UGX 32,000</p>
                 </div>
             `;
 
@@ -670,6 +689,7 @@
         window.handleLogin = handleLogin;
         window.logout = logout;
         window.switchTab = switchTab;
+        window.downloadApp = downloadApp;
     </script>
 </body>
 </html>
